@@ -1,6 +1,6 @@
 let port = 9000;
 
-const app = require('./app.js')
+const app = require('./src/app.js')
 
 const express = require('express');
 const httpProxy = require('http-proxy');

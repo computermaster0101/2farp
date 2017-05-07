@@ -1,0 +1,22 @@
+{
+  "name": "2fa-reverse-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.2",
+    "http-proxy": "^1.16.2",
+    "jade": "^1.11.0",
+    "sha256": "^0.2.0",
+    "speakeasy": "^2.0.0",
+    "tinydb": "^0.1.0"
+  }
+}

@@ -2,14 +2,41 @@ doctype html
 html(lang='en')
   head
     title 2fa Reverse Proxy
+  script(type='text/javascript').
+    function displaySection(button,section){
+      document.getElementById('sessions').style.display='none';
+      document.getElementById('users').style.display='none';
+      document.getElementById('routes').style.display='none';
+      document.getElementById('groups').style.display='none';
+      document.getElementById('displaySessions').disabled=false;
+      document.getElementById('displayUsers').disabled=false;
+      document.getElementById('displayRoutes').disabled=false;
+      document.getElementById('displayGroups').disabled=false;
+
+      document.getElementById(button).disabled=true;
+      document.getElementById(section).style.display='block';
+    }
   style(type='text/css').
   body
     div(align='center')
       h1 Secured Site Setup
       div(style='align: center;')
-        button(onClick='this.disabled=true;') Active Sessions
-        button(onClick='this.disabled=true;') Modify Users
-        button(onClick='this.disabled=true;') Modify Routes
-        button(onClick='this.disabled=true;') Modify Groups
+        button#displaySessions(onclick='displaySection("displaySessions","sessions")') Sessions
+        | &nbsp;
+        button#displayUsers(onclick='displaySection("displayUsers","users")') Users
+        | &nbsp;
+        button#displayRoutes(onclick='displaySection("displayRoutes","routes")') Routes
+        | &nbsp;
+        button#displayGroups(onclick='displaySection("displayGroups","groups")') Groups
+        | &nbsp;
+      br
+      div#sessions(style='border: solid gray; max-width: 80%; display: none;')
+        p this is the sessions section
+      div#users(style='border: solid gray; max-width: 80%; display: none;')
+        p this is the users section
+      div#routes(style='border: solid gray; max-width: 80%; display: none;')
+        p this is the routes section
+      div#groups(style='border: solid gray; max-width: 80%; display: none;')
+        p this is the groups section
       br
       p Presented by Two Factor Authentication Reverse Proxy

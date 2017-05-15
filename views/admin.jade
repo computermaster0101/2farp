@@ -23,11 +23,11 @@ html(lang='en')
       margin: auto;
     }
     .header{
-      border: solid black;
+      //border: solid black;
       text-align: center;
     }
     .area{
-      border: solid black;
+      //border: solid black;
       border-top: none;
       margin: auto;
     }
@@ -46,7 +46,7 @@ html(lang='en')
       br
       div#sessions.container
         div.header
-          p Sessions
+          h2 Sessions
         div.area
           br
           table(border='1' align='center')
@@ -54,12 +54,9 @@ html(lang='en')
               tr
                 td SESSIONS PLACE HOLDER
           br
-          button Add New
-          br
-          br
       div#users.container
         div.header
-          p Users
+         h2 Users
         div.area
           br
           table(border='1' align='center')
@@ -67,12 +64,45 @@ html(lang='en')
               tr
                 td USERS PLACE HOLDER
           br
-          button Add New
+          button(onclick='document.getElementById("newUserForm").style.display="block"') Add New
           br
           br
+          div#newUserForm(style='display: none;')
+            form
+              table
+                tr
+                  td First Name:
+                  td
+                    input(type='text' name='firstName')
+                tr
+                  td Last Name:
+                  td
+                    input(type='text' name='lastName')
+                tr
+                  td Phone Number:
+                  td
+                    input(type='tel' name='phoneNumber')
+                tr
+                  td Email Address:
+                  td
+                    input(type='email' name='emailAddress')
+                tr
+                  td Username:
+                  td
+                    input(type='text' name='username')
+                tr
+                  td Password:
+                  td
+                    input(type='password' name='password')
+                tr
+                  td Retype Password:
+                  td
+                    input(type='password' name='password2')
+              p
+                input(type='submit' value='save')
       div#routes.container
         div.header
-          p Routes
+          h2 Routes
         div.area
           br
           table(border='1' align='center')
@@ -85,7 +115,7 @@ html(lang='en')
           br
       div#groups.container
         div.header
-          p Groups
+          h2 Groups
         div.area
           br
           table(border='1' align='center')

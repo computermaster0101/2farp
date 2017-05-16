@@ -63,43 +63,31 @@ html(lang='en')
             tbody
               tr
                 td USERS PLACE HOLDER
-          br
-          button(onclick='document.getElementById("newUserForm").style.display="block"') Add New
-          br
-          br
-          div#newUserForm(style='display: none;')
-            form
-              table
-                tr
-                  td First Name:
-                  td
-                    input(type='text' name='firstName')
-                tr
-                  td Last Name:
-                  td
-                    input(type='text' name='lastName')
-                tr
-                  td Phone Number:
-                  td
-                    input(type='tel' name='phoneNumber')
-                tr
-                  td Email Address:
-                  td
-                    input(type='email' name='emailAddress')
-                tr
-                  td Username:
-                  td
-                    input(type='text' name='username')
-                tr
-                  td Password:
-                  td
-                    input(type='password' name='password')
-                tr
-                  td Retype Password:
-                  td
-                    input(type='password' name='password2')
-              p
-                input(type='submit' value='save')
+          p
+            button(onclick='document.getElementById("newUserForm").style.display="block"') Add New
+          div#newUserForm(style='max-width: 300px; display: none;' align='right')
+            label(for='firstName') First Name:
+            input(type='text' name='firstName')
+            br
+            label(for='lastName') Last Name:
+            input(type='text' name='lastName')
+            br
+            label(for='phoneNumber') Phone Number:
+            input(type='tel' name='phoneNumber')
+            br
+            label(for='emailAddress') Email Address:
+            input(type='email' name='emailAddress')
+            br
+            label(for='username') Username:
+            input(type='text' name='username')
+            br
+            label(for='password') Password:
+            input(type='password' name='password')
+            br
+            label(for='password2') Retype Password:
+            input(type='password' name='password2')
+            p(align='center')
+              button(onclick='document.getElementById("newUserForm").style.display="none"') Save
       div#routes.container
         div.header
           h2 Routes

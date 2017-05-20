@@ -9,26 +9,25 @@ html(lang='en')
       document.getElementById('routes').style.display='none';
       document.getElementById('groups').style.display='none';
       document.getElementById('newUserForm').style.display='none';
+      document.getElementById('newRouteForm').style.display='none';
+      document.getElementById('newGroupForm').style.display='none';
       document.getElementById('displaySessions').disabled=false;
       document.getElementById('displayUsers').disabled=false;
       document.getElementById('displayRoutes').disabled=false;
       document.getElementById('displayGroups').disabled=false;
 
       document.getElementById(button).disabled=true;
-      document.getElementById(section).style.display='block';
+      document.getElementById(section).style.display='inline-block';
     }
   style(type='text/css').
     .container{
-      max-width: 80%;
       display: none;
       margin: auto;
     }
     .header{
-      //border: solid black;
       text-align: center;
     }
     .area{
-      //border: solid black;
       border-top: none;
       margin: auto;
     }
@@ -62,8 +61,9 @@ html(lang='en')
               tr
                 td USERS PLACE HOLDER
           p
-            button(onclick='document.getElementById("newUserForm").style.display="block"') Add New
-          div#newUserForm(style='max-width: 300px; display: none;' align='right')
+            button(onclick='document.getElementById("newUserForm").style.display="inline-block"') Add New
+          div#newUserForm(align='right')
+            hr
             label(for='firstName') First Name:
             input(type='text' name='firstName')
             br
@@ -86,30 +86,39 @@ html(lang='en')
             input(type='password' name='password2')
             p(align='center')
               button(onclick='document.getElementById("newUserForm").style.display="none"') Save
+            hr
       div#routes.container
         div.header
           h2 Routes
         div.area
-          br
           table(border='1' align='center')
             tbody
               tr
                 td ROUTES PLACE HOLDER
-          br
-          button Add New
-          br
-          br
+          p
+            button(onclick='document.getElementById("newRouteForm").style.display="inline-block"') Add New
+          div#newRouteForm(align='right')
+            hr
+            label(for='routeName') Route Name:
+            input(type='text' name='routeName')
+            p(align='center')
+              button(onclick='document.getElementById("newRouteForm").style.display="none"') Save
+            hr
       div#groups.container
         div.header
           h2 Groups
         div.area
-          br
           table(border='1' align='center')
             tbody
               tr
                 td GROUPS PLACE HOLDER
-          br
-          button Add New
-          br
-          br
+          p
+            button(onclick='document.getElementById("newGroupForm").style.display="inline-block"') Add New
+          div#newGroupForm(align='right')
+            hr
+            label(for='groupName') Group Name:
+            input(type='text' name='groupName')
+            p(align='center')
+              button(onclick='document.getElementById("newGroupForm").style.display="none"') Save
+            hr
       p Presented by Two Factor Authentication Reverse Proxy

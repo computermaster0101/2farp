@@ -11,7 +11,7 @@ const web = express();
 const proxy = httpProxy.createProxyServer();
 
 web.set('views','./views');
-web.set('view engine','jade');
+web.set('view engine','pug');
 web.use(cookieParser());
 web.use(bodyParser.json());
 web.use(bodyParser.urlencoded({extended:false}));

@@ -3,7 +3,7 @@ html(lang='en')
   head
     title 2fa Reverse Proxy
   script(type='text/javascript').
-    function displaySection(button,section){
+    function displaySection(section){
       document.getElementById('sessions').style.display='none';
       document.getElementById('users').style.display='none';
       document.getElementById('routes').style.display='none';
@@ -11,12 +11,12 @@ html(lang='en')
       document.getElementById('newUserForm').style.display='none';
       document.getElementById('newRouteForm').style.display='none';
       document.getElementById('newGroupForm').style.display='none';
-      document.getElementById('displaySessions').disabled=false;
-      document.getElementById('displayUsers').disabled=false;
-      document.getElementById('displayRoutes').disabled=false;
-      document.getElementById('displayGroups').disabled=false;
 
-      document.getElementById(button).disabled=true;
+      document.getElementById('displaySessionsButton').disabled=false;
+      document.getElementById('displayUsersButton').disabled=false;
+      document.getElementById('displayRoutesButton').disabled=false;
+      document.getElementById('displayGroupsButton').disabled=false;
+
       document.getElementById(section).style.display='inline-block';
     }
   style(type='text/css').
@@ -35,13 +35,13 @@ html(lang='en')
     div(align='center')
       h1 Secured Site Setup
       div(style='align: center;')
-        button#displaySessions(onclick='displaySection("displaySessions","sessions")') Sessions
+        button#displaySessionsButton(onclick='displaySection("sessions");this.disabled=true;') Sessions
         | &nbsp;
-        button#displayUsers(onclick='displaySection("displayUsers","users")') Users
+        button#displayUsersButton(onclick='displaySection("users");this.disabled=true;') Users
         | &nbsp;
-        button#displayRoutes(onclick='displaySection("displayRoutes","routes")') Routes
+        button#displayRoutesButton(onclick='displaySection("routes");this.disabled=true;') Routes
         | &nbsp;
-        button#displayGroups(onclick='displaySection("displayGroups","groups")') Groups
+        button#displayGroupsButton(onclick='displaySection("groups");this.disabled=true;') Groups
         | &nbsp;
       br
       div#sessions.container

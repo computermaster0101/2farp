@@ -16,6 +16,7 @@ web.use(cookieParser());
 web.use(bodyParser.json());
 web.use(bodyParser.urlencoded({extended:false}));
 
+web.get('/',function(req,res){res.redirect('/login')});
 web.get('/login',function(req,res){res.render('login')})
 web.post('/login',function(req,res){
     login = {username: req.body.username, password: req.body.password, token: req.body.token}

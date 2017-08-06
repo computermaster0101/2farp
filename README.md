@@ -1,2 +1,2 @@
 # 2farp
-Two Factor Reverse Authentication Proxy written in Nodejs
+Two Factor Authentication Reverse Proxy written in Nodejs

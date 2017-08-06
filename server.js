@@ -21,8 +21,21 @@ web.get('/login',function(req,res){res.render('login')})
 web.post('/login',function(req,res){
     login = {username: req.body.username, password: req.body.password, token: req.body.token}
     return new Promise((resolve,reject) => {
-        app.authenticateUser(login)
-            .then((attempt) => { //fixme this needs more work its just a first pass to test promises
+        app.authenticate(login)
+            .then((session) => {
+                switch (session.statusCode){
+                    case '100' //continue? upon successful authentication - forward to route
+                    return
+                    case '200' //OK? ok, authentication was successful
+                    return
+                    case '201' //Created? the session was created
+                    return
+                    case '401' //Unauthorized? if authentication fails the user is unauthorized
+                    return
+                    case '403' //Forbidden? if authentication fails the user is forbidden
+                    return
+                }
+
                 if(attempt.valid){
                     console.log(`web.lost.login - success - ${login.username}`)
                     if(req.cookies.dest){

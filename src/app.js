@@ -4,6 +4,11 @@ const sha256 =  require('sha256');
 
 exports.connectDB=User.connect
 
+function authenticate(login) { //    login = {username: req.body.username, password: req.body.password, token: req.body.token}
+
+} //statusCode,username,id,timestamp,error
+
+
 exports.authenticateUser = function(login){
     return new Promise((resolve,reject) => {
         User.getByUsername(login.username)

@@ -30,8 +30,6 @@ web.post('/login',function(req,res){
                     return
                     case '401' //Unauthorized? if authentication fails the user is unauthorized
                     return
-                    case '403' //Forbidden? if authentication fails the user is forbidden
-                    return
                 }
 
                 if(attempt.valid){

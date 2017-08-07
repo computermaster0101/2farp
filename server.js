@@ -44,7 +44,8 @@ web.post('/login',function(req,res){
                 }
             })
     }).catch((err) => {
-      return console.log(`web.post.login ${err} ${login.username}`)
+      console.log(`web.post.login ${err} ${login.username}`)
+      return res.render('login',{'status':`Error: ${err}`})
     })
 })
 web.get('/admin',function(req,res){res.render('admin')})

@@ -25,7 +25,7 @@ web.post('/login',function(req,res){
             .then((session) => {
                 switch (session.statusCode){
                     case '200'
-                        console.log(`web.post.login - ${session.username} - redirecting to ${req.cookies.dest}`)
+                        console.log(`web.post.login - ${session.username} - successful authentication`)
                         res.cookies('id',session.id)
                         res.cookies('timestamp',session.timestamp)
                         res.statusCode(200)

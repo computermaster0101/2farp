@@ -24,30 +24,27 @@ web.post('/login',function(req,res){
         app.authenticate(login)
             .then((session) => {
                 switch (session.statusCode){
-                    case '200' //OK? ok, authentication was successful
+                    case '200'
+                        console.log(`web.post.login - ${session.username} - redirecting to ${req.cookies.dest}`)
+                        res.cookies('id',session.id)
+                        res.cookies('timestamp',session.timestamp)
+                        res.statusCode(200)
+                        if(req.cookies.dest){
+                            console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
+                            resolve(res.redirect(req.cookies.dest))
+                        }else{
+                            console.log(`web.lost.login - ${login.username} - no route requested`)
+                            resolve(res.render('noRouteRequested'))
+                        }
                     return
-                    case '201' //Created? the session was created
+                    case '401'
+                        console.log(`web.login.401Unauthorized - ${session.username} - ${session.error}`)
+                        reject(session)
                     return
-                    case '401' //Unauthorized? if authentication fails the user is unauthorized
-                    return
-                }
-
-                if(attempt.valid){
-                    console.log(`web.lost.login - success - ${login.username}`)
-                    if(req.cookies.dest){
-                        console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
-                        resolve(res.redirect(req.cookies.dest))
-                    }else{
-                        console.log(`web.lost.login - ${login.username} - no route requested`)
-                        resolve(res.render('noRouteRequested'))
-                    }
-                }else{
-                    reject(attempt)
                 }
             })
     }).catch((err) => {
-      console.log(`web.post.login ${err} ${login.username}`)
-      return res.render('login',{'status':`Error: ${err}`})
+      return console.log(`web.post.login ${err} ${login.username}`)
     })
 })
 web.get('/admin',function(req,res){res.render('admin')})

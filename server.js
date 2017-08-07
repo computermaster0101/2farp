@@ -24,8 +24,6 @@ web.post('/login',function(req,res){
         app.authenticate(login)
             .then((session) => {
                 switch (session.statusCode){
-                    case '100' //continue? upon successful authentication - forward to route
-                    return
                     case '200' //OK? ok, authentication was successful
                     return
                     case '201' //Created? the session was created

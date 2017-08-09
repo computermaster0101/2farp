@@ -5,15 +5,17 @@ exports.pullOne = function(obj){
     return new Promise((resolve,reject) => {
         db.find(obj,function(err,results){
             if(err){
-                reject(`item not in database`)
+                let result = obj
+                result.error = `item not in database`
+                reject(result)
             }else{
                 let result = results[0];
                 resolve(result)
             }
         })
-    }).catch((err) => {
-        console.log(`dao.pullOne.catch - ${err} - ${JSON.stringify(obj)}`)
-        return err
+    }).catch((error) => {
+        console.log(`dao.pullOne.catch - ${JSON.stringify(obj)} - ${error.error}`)
+        return error
     })
 }
 

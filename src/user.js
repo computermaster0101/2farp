@@ -6,14 +6,15 @@ exports.getByUsername = function(username){
     return new Promise((resolve,reject) => {
         dao.pullOne({obj:'user',username:username})
             .then((user) => {
-                if(user.username){
-                    resolve(user)
+                if(user.error){
+                    user.error=`Invalid Username`
+                    reject(user)
                 }else{
-                    reject(`invalid username`)
+                    resolve(user)
                 }
             })
-    }).catch((err) => {
-        console.log(`user.getByUsername.catch - ${err} - ${username}`)
-        return err
+    }).catch((error) => {
+        console.log(`user.getByUsername.catch - ${error.username} - ${error.error}`)
+        return error
     })
 }

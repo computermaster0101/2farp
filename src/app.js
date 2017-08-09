@@ -1,68 +1,32 @@
 const User = require('./user.js');
+const Session = require('./session.js');
 const token = require('speakeasy');
 const sha256 =  require('sha256');
 
 exports.connectDB=User.connect
 
-function authenticate(login) { //    login = {username: req.body.username, password: req.body.password, token: req.body.token}
-
-} //statusCode,username,id,timestamp,error
-
-
-exports.authenticateUser = function(login){
+exports.authenticate = function(login){ //login = {username: req.body.username, password: req.body.password, token: req.body.token}
     return new Promise((resolve,reject) => {
         User.getByUsername(login.username)
-            .then((user) => checkUserLogin(user,login))
-            .then((success) => {
-                if(success.valid){
-                    resolve(success)
-                }else{
-                    reject(success)
+            .then((user) => {
+                if(user.error){reject(user)}
+                if(login.password == ""){
+                    login.error=`Null Password`
+                }else if(login.token == ""){
+                    login.error=`Null Token`
+                }else if(user.password != sha256(user.salt+login.password)){
+                    login.error=`Invalid Password`
+                }else if(!token.totp.verify({secret:user.key,token:login.token,encoding:'base32',window:0})){ //fixme: remove the window, for testing only due time time issues on laptop vm
+                    login.error=`Invalid Token`
                 }
-
-            })
-    }).catch((err) => {
-        console.log(`app.authenticateUser.catch - ${err} - ${login.username}`)
-        return err
-    })
-}
-
-function checkUserLogin(user,login){
-    return new Promise((resolve,reject) => {
-        getPasswordHash(user,login)
-            .then((passwordHash) => {
-                if(passwordHash.valid){
-                    if(passwordHash.value == user.password){
-                        if(token.totp.verify({secret:user.key,token:login.token,encoding:'base32',window:1})){ //fixme: remove the window, for testing only due time time issues on laptop vm
-                            resolve({valid:true})
-                        }else{
-                            reject(`invalid token`)
-                        }
-                    }else{
-                        reject(`invalid password`)
-                    }
+                if(login.error){
+                    reject(login)
                 }else{
-                    reject(passwordHash)
+                    resolve(user)
                 }
             })
-    }).catch((err) => {
-        console.log(`app.checkUserLogin.catch - ${err} - ${login.username}`)
-        return err
+    }).catch((error) => {
+        console.log(`app.authenticate.catch - ${error.username} - ${error.error}`)
+        return error
     })
-}
-
-
-function getPasswordHash(user,login){
-    return new Promise((resolve,reject) => {
-        if(!user.salt){reject(user)}
-        if(login.password){
-            resolve({valid:true,value:sha256(user.salt+login.password)})
-        }else{
-            reject(`null password`)
-        }
-    }).catch((err) => {
-        console.log(`app.getPasswordHash.catch - ${err}`)
-        return err
-    })
-}
-
+} //session = {id: id, statusCode: statusCode, timestamp: timestamp, username: username, error: error}

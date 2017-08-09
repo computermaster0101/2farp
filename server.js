@@ -23,29 +23,24 @@ web.post('/login',function(req,res){
     return new Promise((resolve,reject) => {
         app.authenticate(login)
             .then((session) => {
-                switch (session.statusCode){
-                    case '200'
-                        console.log(`web.post.login - ${session.username} - successful authentication`)
-                        res.cookies('id',session.id)
-                        res.cookies('timestamp',session.timestamp)
-                        res.statusCode(200)
-                        if(req.cookies.dest){
-                            console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
-                            resolve(res.redirect(req.cookies.dest))
-                        }else{
-                            console.log(`web.lost.login - ${login.username} - no route requested`)
-                            resolve(res.render('noRouteRequested'))
-                        }
-                    return
-                    case '401'
+                if(session.error){
                         console.log(`web.login.401Unauthorized - ${session.username} - ${session.error}`)
                         reject(session)
-                    return
+                }else{
+                    console.log(`web.post.login - ${session.username} - successful authentication`)
+                    session.statusCode=200
+                    if(req.cookies.dest){
+                        console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
+                        resolve(res.redirect(req.cookies.dest))
+                    }else{
+                        console.log(`web.post.login - ${login.username} - no route requested`)
+                        resolve(res.render('noRouteRequested'))
+                    }
                 }
             })
-    }).catch((err) => {
-      console.log(`web.post.login ${err} ${login.username}`)
-      return res.render('login',{'status':`Error: ${err}`})
+    }).catch((error) => {
+      console.log(`web.post.login - ${error.username} - ${error.error} - ${login.password}`)
+      return res.render('login',{'status':`Error: ${error.error}`})
     })
 })
 web.get('/admin',function(req,res){res.render('admin')})

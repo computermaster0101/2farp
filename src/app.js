@@ -22,7 +22,15 @@ exports.authenticate = function(login){ //login = {username: req.body.username, 
                 if(login.error){
                     reject(login)
                 }else{
-                    resolve(user)
+                    return(user)
+                }
+            })
+            .then((user) => createSession(user))
+            .then((session) => {
+                if(session.error){
+                    reject(session)
+                }else{
+                    resolve(session)
                 }
             })
     }).catch((error) => {
@@ -30,3 +38,15 @@ exports.authenticate = function(login){ //login = {username: req.body.username, 
         return error
     })
 } //session = {id: id, statusCode: statusCode, timestamp: timestamp, username: username, error: error}
+
+function createSession(validUser){
+    return new Promise((resolve,reject) => {
+        if(validUser.error){
+            console.log(`hitTheErrorNoValidUser`)
+            reject(validUser)
+        }else{
+            console.log(`${JSON.stringify(validUser)}`)
+            resolve(validUser)
+        }
+    })
+}

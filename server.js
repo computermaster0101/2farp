@@ -25,10 +25,11 @@ web.post('/login',function(req,res){
             .then((session) => {
                 if(session.error){
                         console.log(`web.login.401Unauthorized - ${session.username} - ${session.error}`)
+                        res.statusCode=401
                         reject(session)
                 }else{
                     console.log(`web.post.login - ${session.username} - successful authentication`)
-                    session.statusCode=200
+                    res.statusCode=200
                     if(req.cookies.dest){
                         console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
                         resolve(res.redirect(req.cookies.dest))

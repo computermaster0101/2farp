@@ -1,5 +1,4 @@
 const dao = require('./dao.js')
-
 exports.connect=dao.startDB
 
 exports.getByUsername = function(username){
@@ -14,7 +13,7 @@ exports.getByUsername = function(username){
                 }
             })
     }).catch((error) => {
-        console.log(`user.getByUsername.catch - ${error.username} - ${error.error}`)
+        console.log(`user.getByUsername - ${error.username} - ${error.error}`)
         return error
     })
 }

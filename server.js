@@ -40,8 +40,8 @@ web.post('/login',function(req,res){
                 }
             })
     }).catch((error) => {
-      console.log(`web.post.login - ${error.username} - ${error.error} - ${login.password}`)
-      return res.render('login',{'status':`Error: ${error.error}`})
+        console.log(`web.post.login - ${error.username} - ${error.error}`)
+        return res.render('login',{'status':`Error: ${error.error}`})
     })
 })
 web.get('/admin',function(req,res){res.render('admin')})

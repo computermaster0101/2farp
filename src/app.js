@@ -35,11 +35,12 @@ function checkUserLogin(user,login){
         }else if(!token.totp.verify({secret:user.key,token:login.token,encoding:'base32',window:1})){ //fixme: remove the window, for testing only due time time issues on laptop vm
             login.error=`Invalid Token`
         }
-        if(login.error){reject(login)}
-
-        user.cookey = token.generateSecret({length: 32}).ascii
-        resolve(user)
-
+        if(login.error){
+            reject(login)
+        }else{
+            user.sessionKey = token.generateSecret({length: 32}).ascii
+            resolve(user)
+        }
     }).catch((error) => {
         console.log(`app.checkUserLogin - ${error.username} - ${error.error}`)
         return error

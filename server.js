@@ -25,7 +25,6 @@ web.post('/login',function(req,res){
             .then((session) => {
                 if(session.error){
                         console.log(`web.login.401Unauthorized - ${session.username} - ${session.error}`)
-                        console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
                         res.statusCode=401
                         reject(session)
                 }else{
@@ -43,6 +42,7 @@ web.post('/login',function(req,res){
             })
     }).catch((error) => {
         console.log(`web.post.login - ${error.username} - ${error.error}`)
+        console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
         return res.render('login',{'status':`Error: ${error.error}`})
     })
 })

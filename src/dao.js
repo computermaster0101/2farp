@@ -23,3 +23,4 @@ exports.pullOne = function(obj){
     })
 }
 
+function create(obj){}

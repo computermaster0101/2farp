@@ -25,6 +25,7 @@ web.post('/login',function(req,res){
             .then((session) => {
                 if(session.error){
                         console.log(`web.login.401Unauthorized - ${session.username} - ${session.error}`)
+                        console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
                         res.statusCode=401
                         reject(session)
                 }else{
@@ -34,7 +35,8 @@ web.post('/login',function(req,res){
                         console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
                         resolve(res.redirect(req.cookies.dest))
                     }else{
-                        console.log(`web.post.login - ${login.username} - no route requested`)
+                        console.log(`web.post.login - ${session.username} - no route requested`)
+                        console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
                         resolve(res.render('noRouteRequested'))
                     }
                 }

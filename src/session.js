@@ -1,16 +1,12 @@
-const imo = require('./imo.js')
+const imo = require('./dao.js')
 
 exports.create = function(validUser){
     return new Promise((resolve,reject) => {
-        if(validUser.error){
-            //console.log(`hitTheErrorNoValidUser`)
-            reject(validUser)
-        }else{
-            //console.log(`${JSON.stringify(validUser)}`)
-            resolve(validUser)
-        }
+        if(validUser.error){reject(validUser)}
+        let sessionData = {key: validUser.cookey, timestamp: new Date().getTime(), username:validUser.username}
+        resolve(sessionData)
     }).catch((error) => {
-        console.log(`app.createSession. - ${error.username} - ${error.error}`)
+        console.log(`session.create - ${error.username} - ${error.error}`)
         return error
     })
 }

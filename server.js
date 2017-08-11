@@ -42,7 +42,7 @@ web.post('/login',function(req,res){
             })
     }).catch((error) => {
         console.log(`web.post.login - ${error.username} - ${error.error}`)
-        console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
+        console.log(`web.post.login - Full Session Data - ${JSON.stringify(error)}`)
         return res.render('login',{'status':`Error: ${error.error}`})
     })
 })

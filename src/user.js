@@ -7,7 +7,7 @@ exports.getByUsername = function(username){
             .then((user) => {
                 if(user.error){
                     user.error=`Invalid Username`
-                    reject(user)
+                    return reject(user)
                 }else{
                     resolve(user)
                 }

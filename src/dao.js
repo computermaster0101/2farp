@@ -41,11 +41,11 @@ exports.createOne = function(obj){
             })
         })
     }).catch((error) => {
-        console.log(`dao.create - ${JSON.stringify(obj)} - ${error.error}`)
+        console.log(`dao.createOne - ${JSON.stringify(error)} - ${error.error}`)
         return error
     })
 }
-exports.pullObjById = function(id){
+exports.getById = function(id){
     return new Promise((resolve,reject) => {
         db.findById(id,function(err,result){
             if(err){

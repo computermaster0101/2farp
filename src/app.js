@@ -9,6 +9,13 @@ exports.authenticate = function(login){
     return new Promise((resolve,reject) => {
         User.getByUsername(login.username)
             .then((user) => checkUserLogin(user,login))
+            .then((checkedUser) => {
+                if(checkedUser.error){
+                    reject(checkedUser)
+                }else(
+                    resolve(checkedUser)
+                )
+            })
             .then((validUser) => Session.create(validUser))
             .then((session) => {
                 if(session.error){
@@ -25,7 +32,7 @@ exports.authenticate = function(login){
 
 function checkUserLogin(user,login){
     return new Promise((resolve,reject) => {
-        if(user.error){reject(user)}
+        if(user.error){return reject(user)}
         if(login.password == ""){
             login.error=`Null Password`
         }else if(login.token == ""){

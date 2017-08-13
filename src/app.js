@@ -6,28 +6,24 @@ const sha256 =  require('sha256');
 exports.connectDB=User.connect
 
 exports.authenticate = function(login){
-    return new Promise((resolve,reject) => {
-        User.getByUsername(login.username)
-            .then((user) => checkUserLogin(user,login))
-            .then((checkedUser) => {
-                if(checkedUser.error){
-                    reject(checkedUser)
-                }else(
-                    resolve(checkedUser)
-                )
-            })
-            .then((validUser) => Session.create(validUser))
-            .then((session) => {
-                if(session.error){
-                    reject(session)
-                }else{
-                    resolve(session)
-                }
-            })
-    }).catch((error) => {
-        console.log(`app.authenticate - ${error.username} - ${error.error}`)
-        return error
-    })
+    return User.getByUsername(login.username)
+          .then((user) => checkUserLogin(user,login))
+
+          /*.then((checkedUser) => {
+            if(checkedUser.error){
+              reject(checkedUser)
+            }else(
+              resolve(checkedUser)
+            )
+          })
+          .then((validUser) => Session.create(validUser))
+          .then((session) => {
+            if(session.error){
+              reject(session)
+            }else{
+              resolve(session)
+            }
+          })*/
 }
 
 function checkUserLogin(user,login){

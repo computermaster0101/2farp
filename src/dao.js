@@ -9,19 +9,18 @@ exports.pullOne = function(obj){
     return new Promise((resolve,reject) => {
         db.find(obj,function(err,results){
             if(err){
-                let result = obj
-                result.error = `item not in database`
-                reject(result)
+                obj.error = `item not in database`
+                reject(obj);
             }else{
-                let result = results[0];
-                resolve(result)
+                resolve(results[0])
             }
         })
-    }).catch((error) => {
-        console.log(`dao.pullOne - ${JSON.stringify(obj)} - ${error.error}`)
-        return error
     })
 }
+
+// https://gist.github.com/justmoon/15511f92e5216fa2624b
+//
+// https://ponyfoo.com/articles/es6-promises-in-depth
 
 exports.createOne = function(obj){
     return new Promise((resolve,reject) => {

@@ -20,30 +20,24 @@ web.get('/',function(req,res){res.redirect('/login')});
 web.get('/login',function(req,res){res.render('login')})
 web.post('/login',function(req,res){
     login = {username: req.body.username, password: req.body.password, token: req.body.token}
-    return new Promise((resolve,reject) => {
-        app.authenticate(login)
-            .then((session) => {
-                if(session.error){
-                        console.log(`web.login.401Unauthorized - ${session.username} - ${session.error}`)
-                        res.statusCode=401
-                        reject(session)
-                }else{
-                    console.log(`web.post.login - ${session.username} - successful authentication`)
-                    res.statusCode=200
-                    if(req.cookies.dest){
-                        console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
-                        resolve(res.redirect(req.cookies.dest))
-                    }else{
-                        console.log(`web.post.login - ${session.username} - no route requested`)
-                        console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
-                        resolve(res.render('noRouteRequested'))
-                    }
-                }
-            })
-    }).catch((error) => {
-        console.log(`web.post.login - ${error.username} - ${error.error}`)
-        console.log(`web.post.login - Full Session Data - ${JSON.stringify(error)}`)
-        return res.render('login',{'status':`Error: ${error.error}`})
+    return app.authenticate(login)
+      .then((session) => {
+        console.log(`web.post.login - ${session.username} - successful authentication`)
+        res.statusCode=200
+        if(req.cookies.dest){
+          console.log(`web.lost.login - ${login.username} - redirecting to ${req.cookies.dest}`)
+          resolve(res.redirect(req.cookies.dest))
+        }else{
+          console.log(`web.post.login - ${session.username} - no route requested`)
+          console.log(`web.post.login - Full Session Data - ${JSON.stringify(session)}`)
+          resolve(res.render('noRouteRequested'))
+        }
+      }).catch((error) => {
+
+        console.error(`web.login.401Unauthorized - ${JSON.stringify(error)}`)
+
+        res.statusCode=401
+        res.render('login',{'status':`${error}`})
     })
 })
 web.get('/admin',function(req,res){res.render('admin')})

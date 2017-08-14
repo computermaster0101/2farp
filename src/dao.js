@@ -28,35 +28,26 @@ exports.createOne = function(obj){
             db.flush(function(){
                 db.find(obj,function(err,results){
                     if(err){
-                        let result = obj
-                        result.error = `failed to create item in database`
-                        reject(result)
+                        obj.error = `failed to create item in database`
+                        reject(obj)
                     }else{
-                        console.log(`dao.create - ${JSON.stringify(result)}`)
                         let result = results[0];
                         resolve(result._id)
                     }
                 })
             })
         })
-    }).catch((error) => {
-        console.log(`dao.createOne - ${JSON.stringify(error)} - ${error.error}`)
-        return error
     })
 }
 exports.getById = function(id){
     return new Promise((resolve,reject) => {
         db.findById(id,function(err,result){
             if(err){
-                let result = obj
-                result.error = `failed to create item in database`
-                reject(result)
+                obj.error = `item not in database`
+                reject(obj)
             }else{
                 resolve(result)
             }
         })
-    }).catch((error) => {
-        console.log(`dao.create - ${JSON.stringify(obj)} - ${error.error}`)
-        return error
     })
 }

@@ -8,44 +8,22 @@ exports.connectDB=User.connect
 exports.authenticate = function(login){
     return User.getByUsername(login.username)
           .then((user) => checkUserLogin(user,login))
-
-          /*.then((checkedUser) => {
-            if(checkedUser.error){
-              reject(checkedUser)
-            }else(
-              resolve(checkedUser)
-            )
-          })
-          .then((validUser) => Session.create(validUser))
-          .then((session) => {
-            if(session.error){
-              reject(session)
-            }else{
-              resolve(session)
-            }
-          })*/
+          .then((sessionInfo) => Session.create(sessionInfo))
 }
 
 function checkUserLogin(user,login){
     return new Promise((resolve,reject) => {
-        if(user.error){return reject(user)}
         if(login.password == ""){
-            login.error=`Null Password`
+            throw new Error(`Null Password`);
         }else if(login.token == ""){
-            login.error=`Null Token`
+            throw new Error(`Null Token`);
         }else if(user.password != sha256(user.salt+login.password)){
-            login.error=`Invalid Password`
+            throw new Error(`Invalid Password`);
         }else if(!token.totp.verify({secret:user.key,token:login.token,encoding:'base32',window:1})){ //fixme: remove the window, for testing only due time time issues on laptop vm
-            login.error=`Invalid Token`
+            throw new Error(`Invalid Token`);
         }
-        if(login.error){
-            reject(login)
-        }else{
-            user.sessionKey = token.generateSecret({length: 32}).ascii
-            resolve(user)
-        }
-    }).catch((error) => {
-        console.log(`app.checkUserLogin - ${error.username} - ${error.error}`)
-        return error
+        let sessionKey = token.generateSecret({length: 32}).ascii
+        let sessionInfo = {key: sessionKey, keyHash: sha256(user.salt+sessionKey), username: login.username, timestamp: new Date().getTime()}
+        resolve(sessionInfo)
     })
 }

@@ -1,7 +1,6 @@
 const dao = require('./dao.js')
 
 exports.create = function(sessionInfo){
-    sessionInfo.obj = 'session'
     return dao.createOne(sessionInfo)
         .then((sessionId) => dao.getById(sessionId))
         .then((session) => {

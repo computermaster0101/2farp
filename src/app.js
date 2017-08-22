@@ -23,7 +23,7 @@ function checkUserLogin(user,login){
             throw new Error(`Invalid Token`);
         }
         let sessionKey = token.generateSecret({length: 32}).ascii
-        let sessionInfo = {key: sessionKey, keyHash: sha256(user.salt+sessionKey), username: login.username, timestamp: new Date().getTime()}
+        let sessionInfo = {obj: 'session', key: sessionKey, keyHash: sha256(user.salt+sessionKey), username: login.username, sourceIP: login.sourceIP, sourceHostname: login.sourceHostname, timestamp: new Date().getTime()}
         resolve(sessionInfo)
     })
 }

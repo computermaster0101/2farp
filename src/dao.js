@@ -21,7 +21,21 @@ exports.pullOne = function(obj){
 // https://gist.github.com/justmoon/15511f92e5216fa2624b
 //
 // https://ponyfoo.com/articles/es6-promises-in-depth
-
+exports.removeOne = function(obj){
+    return new Promise((resolve,reject) => {
+        db.find(obj,function(err,results){
+            if(err){
+                resolve()
+            }else{
+                db.findByIdAndRemove(results[0]._id,function(){
+                    db.flush(function(){
+                        resolve()
+                    })
+                })
+            }
+        })
+    })
+}
 exports.createOne = function(obj){
     return new Promise((resolve,reject) => {
         db.appendItem(obj,function(){

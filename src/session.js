@@ -5,7 +5,7 @@ exports.create = function(sessionInfo){
         .then (() => dao.createOne({obj: 'session', username: sessionInfo.username, sourceIP: sessionInfo.sourceIP, sourceHostname: sessionInfo.sourceHostname, keyHash: sessionInfo.keyHash, timestamp: sessionInfo.timestamp}))
         .then((sessionId) => dao.getById(sessionId))
         .then((session) => {
-            //note: since the timestamp can be used to calculate the key, this should not be returned in the sessionData
+            //note: since the initial timestamp on a session can be used to calculate the key, this should not be returned in the sessionData
             sessionData = {id: session._id, key: sessionInfo.key}
             return sessionData
         })
@@ -13,4 +13,8 @@ exports.create = function(sessionInfo){
             console.log(`session.create.error - ${JSON.stringify(error)}`)
             throw new Error(`${error.error}`);
         })
+}
+
+exports.remove = function(sessionInfo){
+    return dao.removeOne({obj: 'session', username: sessionInfo.username, sourceIP: sessionInfo.sourceIP, sourceHostname: sessionInfo.sourceHostname})
 }

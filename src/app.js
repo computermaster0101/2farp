@@ -27,8 +27,7 @@ function checkUserLogin(user,login){
             throw new Error(`${login.error}`);
         }else{
             let sessionKey = token.generateSecret({length: 32}).ascii
-            let sessionInfo = {obj: 'session', key: sessionKey, keyHash: sha256(user.salt+sessionKey), username: login.username, sourceIP: login.sourceIP, sourceHostname: login.sourceHostname, timestamp: new Date().getTime()}
-            resolve(sessionInfo)
+            resolve({obj: 'session', key: sessionKey, keyHash: sha256(user.salt+sessionKey), username: login.username, sourceIP: login.sourceIP, sourceHostname: login.sourceHostname, timestamp: new Date().getTime()})
         }
     })
 }

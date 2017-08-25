@@ -2,10 +2,11 @@ const dao = require('./dao.js')
 
 exports.create = function(sessionInfo){
     return dao.removeOne({obj: 'session', username: sessionInfo.username, sourceIP: sessionInfo.sourceIP, sourceHostname: sessionInfo.sourceHostname})
-        .then (() => dao.createOne(sessionInfo))
+        .then (() => dao.createOne({obj: 'session', username: sessionInfo.username, sourceIP: sessionInfo.sourceIP, sourceHostname: sessionInfo.sourceHostname, keyHash: sessionInfo.keyHash, timestamp: sessionInfo.timestamp}))
         .then((sessionId) => dao.getById(sessionId))
         .then((session) => {
-            sessionData = {id: session._id, key: sessionInfo.key, username: session.username, timestamp: session.timestamp}
+            //note: since the timestamp can be used to calculate the key, this should not be returned in the sessionData
+            sessionData = {id: session._id, key: sessionInfo.key}
             return sessionData
         })
         .catch((error) => {

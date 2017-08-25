@@ -19,7 +19,7 @@ function checkUserLogin(user,login){
             throw new Error(`Null Token`);
         }else if(user.password != sha256(user.salt+login.password)){
             throw new Error(`Invalid Password`);
-        }else if(!token.totp.verify({secret:user.key,token:login.token,encoding:'base32',window:1})){ //fixme: remove the window, for testing only due time time issues on laptop vm
+        }else if(!token.totp.verify({secret:user.key,token:login.token,encoding:'base32'})){
             throw new Error(`Invalid Token`);
         }
         let sessionKey = token.generateSecret({length: 32}).ascii

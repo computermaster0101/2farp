@@ -1,4 +1,4 @@
-const tinydb = require('tinydb');
+const tinydb = require('tinydb'); //https://www.npmjs.com/package/tinydb
 const db = new tinydb('./2farp.db');
 
 exports.startDB = function(cb){
@@ -18,9 +18,6 @@ exports.pullOne = function(obj){
     })
 }
 
-// https://gist.github.com/justmoon/15511f92e5216fa2624b
-//
-// https://ponyfoo.com/articles/es6-promises-in-depth
 exports.removeOne = function(obj){
     return new Promise((resolve,reject) => {
         db.find(obj,function(err,results){
@@ -65,3 +62,12 @@ exports.getById = function(id){
         })
     })
 }
+
+exports.update = function(obj){
+    return new Promise((resolve,reject) => {
+        db.flush()
+    })
+}
+// https://gist.github.com/justmoon/15511f92e5216fa2624b
+//
+// https://ponyfoo.com/articles/es6-promises-in-depth

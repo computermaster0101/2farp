@@ -21,7 +21,7 @@ web.all('*',function(req,res,next){
     if(session.id){
         return app.validate(session)
             .then(() => {
-            console.log(`web.post.login.200Authorized - Session: ${session.id}, Message: Successful Authentication`)
+                console.log(`web.post.login.200Authorized - Session: ${session.id}, Message: Successful Authentication`)
                 next()
         }).catch((error) => {
             console.error(`web.post.login.401Unauthorized - Session: ${session.id}, ${error}`)

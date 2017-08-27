@@ -31,10 +31,13 @@ web.all('*',function(req,res,next){
             res.render('login',{'status':`${error}`})
             Promise.resolve()
         })
-    }else{
+    }else{ //fixme: this needs to redirect to /login. right now its rendering.
+        res.cookie('dest',req.url)
+        console.log(req.url)
+        req.url='/login'
         next()
     }
-})
+}) //note for later:     path='/'+req.path.split('/').slice(1)[0]
 
 web.get('/',function(req,res){res.redirect('/login')});
 web.get('/login',function(req,res){res.render('login')})
@@ -48,7 +51,7 @@ web.post('/login',function(req,res){
             res.cookie('id', session.id)
             res.cookie('key', session.key)
             if(req.cookies.dest){
-                res.redirect(req.cookies.dest)
+                res.redirect(req.cookies.dest) //fixme: meed to write this when no session is created
                 Promise.resolve()
             }else{
                 res.render('noRouteRequested')

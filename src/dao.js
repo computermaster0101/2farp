@@ -65,6 +65,12 @@ exports.getById = function(id){
 
 exports.update = function(obj){
     return new Promise((resolve,reject) => {
+        /*
+        when an object is pulled from the database,
+        an in-memory map is created. This flush works as
+        long as the object that was pulled is the
+        object that is passed back with updated values
+        */
         db.flush()
     })
 }

@@ -1,0 +1,124 @@
+doctype html
+html(lang='en')
+  head
+    title 2fa Reverse Proxy
+  script(type='text/javascript').
+    function displaySection(section){
+      document.getElementById('sessions').style.display='none';
+      document.getElementById('users').style.display='none';
+      document.getElementById('routes').style.display='none';
+      document.getElementById('groups').style.display='none';
+      document.getElementById('newUserForm').style.display='none';
+      document.getElementById('newRouteForm').style.display='none';
+      document.getElementById('newGroupForm').style.display='none';
+
+      document.getElementById('displaySessionsButton').disabled=false;
+      document.getElementById('displayUsersButton').disabled=false;
+      document.getElementById('displayRoutesButton').disabled=false;
+      document.getElementById('displayGroupsButton').disabled=false;
+
+      document.getElementById(section).style.display='inline-block';
+    }
+  style(type='text/css').
+    .container{
+      display: none;
+      margin: auto;
+    }
+    .header{
+      text-align: center;
+    }
+    .area{
+      border-top: none;
+      margin: auto;
+    }
+  body
+    div(align='center')
+      h1 Secured Site Setup
+      div(style='align: center;')
+        button#displaySessionsButton(onclick='displaySection("sessions");this.disabled=true;') Sessions
+        | &nbsp;
+        button#displayUsersButton(onclick='displaySection("users");this.disabled=true;') Users
+        | &nbsp;
+        button#displayRoutesButton(onclick='displaySection("routes");this.disabled=true;') Routes
+        | &nbsp;
+        button#displayGroupsButton(onclick='displaySection("groups");this.disabled=true;') Groups
+        | &nbsp;
+      br
+      div#sessions.container
+        div.header
+          h2 Sessions
+        div.area
+          table(border='1' align='center')
+            tbody
+              tr
+                td SESSIONS PLACE HOLDER
+      div#users.container
+        div.header
+         h2 Users
+        div.area
+          table(border='1' align='center')
+            tbody
+              tr
+                td USERS PLACE HOLDER
+          p
+            button(onclick='document.getElementById("newUserForm").style.display="inline-block"') Add New
+          div#newUserForm(align='right')
+            hr
+            label(for='firstName') First Name:
+            input(type='text' name='firstName')
+            br
+            label(for='lastName') Last Name:
+            input(type='text' name='lastName')
+            br
+            label(for='phoneNumber') Phone Number:
+            input(type='tel' name='phoneNumber')
+            br
+            label(for='emailAddress') Email Address:
+            input(type='email' name='emailAddress')
+            br
+            label(for='username') Username:
+            input(type='text' name='username')
+            br
+            label(for='password') Password:
+            input(type='password' name='password')
+            br
+            label(for='password2') Retype Password:
+            input(type='password' name='password2')
+            p(align='center')
+              button(onclick='document.getElementById("newUserForm").style.display="none"') Save
+            hr
+      div#routes.container
+        div.header
+          h2 Routes
+        div.area
+          table(border='1' align='center')
+            tbody
+              tr
+                td ROUTES PLACE HOLDER
+          p
+            button(onclick='document.getElementById("newRouteForm").style.display="inline-block"') Add New
+          div#newRouteForm(align='right')
+            hr
+            label(for='routeName') Route Name:
+            input(type='text' name='routeName')
+            p(align='center')
+              button(onclick='document.getElementById("newRouteForm").style.display="none"') Save
+            hr
+      div#groups.container
+        div.header
+          h2 Groups
+        div.area
+          table(border='1' align='center')
+            tbody
+              tr
+                td GROUPS PLACE HOLDER
+          p
+            button(onclick='document.getElementById("newGroupForm").style.display="inline-block"') Add New
+          div#newGroupForm(align='right')
+            hr
+            label(for='groupName') Group Name:
+            input(type='text' name='groupName')
+            p(align='center')
+              button(onclick='document.getElementById("newGroupForm").style.display="none"') Save
+            hr
+      p Presented by Two Factor Authentication Reverse Proxy

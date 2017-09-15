@@ -1,34 +1,35 @@
 import {Builder} from 'sequelize-classes'
-import {User} from '../domain/User'
+import AccessGroup from '../model/AccessGroup'
+import AccessGroupRule from '../model/AccessGroupRule'
+import CellCarrier from '../model/CellCarrier'
+import NotificationType from '../model/NotificationType'
+import Option from '../model/Option'
+import Role from '../model/Role'
+import Route from '../model/Route'
+import Status from '../model/Status'
+import User from '../model/User'
 
-const options = {
-  database: "2farp",
+const options = { //these settings are straight up dev settings. IDC that i committed it because this will not exist later
+  database: "2farp_dev",
   username: "root",
   pass: "toor",
   config: {
     host: "localhost",
     port: 3306,
     logging: false,
-    dialect: "mysql2"
+    dialect: "mysql"
   }
 }
 
-let instance = null
+const databaseConnector = new Builder(options, [AccessGroup, AccessGroupRule, CellCarrier, NotificationType, Option, Role, Route, Status, User]);
 
-export default class DatabaseConnector {
-  constructor(){
-    if(!instance){
-      instance = this
-      this.db = new Builder(options, [User])
-    }
-    return this
-  }
-
-  static getInstance(){
-    if(!instance){
-      instance = new DatabaseConnector()
-    }
-    return instance.db
-  }
-
-}
+exports.Database = databaseConnector.base;
+exports.AccessGroup = databaseConnector.AccessGroup
+exports.AccessGroupRule = databaseConnector.AccessGroupRule
+exports.CellCarrier = databaseConnector.CellCarrier
+exports.NotificationType = databaseConnector.NotificationType
+exports.Option = databaseConnector.Option
+exports.Role = databaseConnector.Role
+exports.Route = databaseConnector.Route
+exports.Status = databaseConnector.Status
+exports.User = databaseConnector.User

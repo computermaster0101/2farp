@@ -16,9 +16,11 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "http-proxy": "^1.16.2",
+    "mysql": "^2.14.1",
+    "mysql2": "^1.4.2",
     "pug": "^2.0.0-rc.1",
     "sequelize": "^4.8.3",
-    "sequelize-classes": "^0.1.12",
+    "sequelize-classes": "https://github.com/nutstick/sequelize-classes.git",
     "sha256": "^0.2.0",
     "speakeasy": "^2.0.0",
     "tinydb": "^0.1.0"

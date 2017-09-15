@@ -1,4 +1,6 @@
-const application = require ('./biz/2farp');
+import TwoFactorAuthenticationReverseProxy from './biz/2farp'
+
+const application = TwoFactorAuthenticationReverseProxy
 
 let port = 9000;
 
@@ -7,6 +9,7 @@ const web = express();
 
 
 web.listen(port,function(){
+  application.databaseBuilder()
   console.log(`server is running on port ${port}`)
 })
 

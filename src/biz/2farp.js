@@ -1,4 +1,4 @@
-import { Database} from '../db/DatabaseConnector'
+import { Database } from '../db/DatabaseConnector'
 import OptionService from '../service/OptionService'
 import StatusService from '../service/StatusService'
 import RoleService from '../service/RoleService'

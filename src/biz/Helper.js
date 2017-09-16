@@ -1,27 +1,33 @@
-import { fs } from 'fs'
+import fs from 'fs'
 
-export default class Helper{
+let datasourceFile = './datasource.json'
 
-  databaseOptions
-  datasourceFile = './datasource.json'
+export class Datasource{
 
-  static getDatasource = function(){
-    fs.readFile(datasourceFile, 'utf8', function(err, data) {
-      if (err) {
-        console.log(`$err`)
-        this.databaseOptions = null;
-      } else {
-        try {
-          this.databaseOptions = JSON.parse(data.toString())
-        } catch(e) {
-          throw new Error('database format error!')
-        }
+  static get = function(){
+    return new Promise((resolve,reject) => {
+      console.log(`reading database info from file ${datasourceFile}`)
+      let options
+      fs.readFile(`${datasourceFile}`, 'utf8', function(err, data) {
+        if (err) {
+          console.log(`$err`)
+          resolve(null)
+        } else {
+          try {
+            options = JSON.parse(data.toString())
+          } catch(e) {
+            reject(`${datasourceFile} format error!`)
+          }
       }
-      return this.databaseOptions
+      console.log(`Helper databaseOptions: ${JSON.stringify(options)}`)
+      resolve(options)
+      })
     })
   }
-  static setDatasource = function(databaseOptions){
-    fs.writeFileSync(datasourceFile, JSON.stringify(databaseOptions), 'utf8')
+
+  static set = function(databaseOptions){
+    console.log(`writing database info to file ${datasourceFile}`)
+    fs.writeFileSync(`${datasourceFile}`, JSON.stringify(databaseOptions), 'utf8')
   }
 
 }

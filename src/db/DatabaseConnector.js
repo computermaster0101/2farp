@@ -9,27 +9,42 @@ import Route from '../model/Route'
 import Status from '../model/Status'
 import User from '../model/User'
 
-const options = { //fixme: these settings are straight up dev settings. IDC that i committed it because this will not exist later
-  database: "2farp_dev",
-  username: "root",
-  pass: "toor",
-  config: {
-    host: "localhost",
-    port: 3306,
-    logging: false,
-    dialect: "mysql"
+exports.Database
+exports.AccessGroup
+exports.AccessGroupRule
+exports.CellCarrier
+exports.NotificationType
+exports.Option
+exports.Role
+exports.Route
+exports.Status
+exports.User
+
+exports.DatabaseConnector = function(datasourceOptions){
+
+  const options = { //fixme: these settings are straight up dev settings. IDC that i committed it because this will not exist later
+    database: datasourceOptions.database,
+    username: datasourceOptions.username,
+    pass: datasourceOptions.password,
+    config: {
+      host: datasourceOptions.host,
+      port: datasourceOptions.port,
+      logging: datasourceOptions.logging,
+      dialect: datasourceOptions.dialect
+    }
   }
+
+  const databaseConnector = new Builder(options, [AccessGroup, AccessGroupRule, CellCarrier, NotificationType, Option, Role, Route, Status, User]);
+
+  module.exports.Database = databaseConnector.base
+  module.exports.AccessGroup = databaseConnector.AccessGroup
+  module.exports.AccessGroupRule = databaseConnector.AccessGroupRule
+  module.exports.CellCarrier = databaseConnector.CellCarrier
+  module.exports.NotificationType = databaseConnector.NotificationType
+  module.exports.Option = databaseConnector.Option
+  module.exports.Role = databaseConnector.Role
+  module.exports.Route = databaseConnector.Route
+  module.exports.Status = databaseConnector.Status
+  module.exports.User = databaseConnector.User
+
 }
-
-const databaseConnector = new Builder(options, [AccessGroup, AccessGroupRule, CellCarrier, NotificationType, Option, Role, Route, Status, User]);
-
-exports.Database = databaseConnector.base
-exports.AccessGroup = databaseConnector.AccessGroup
-exports.AccessGroupRule = databaseConnector.AccessGroupRule
-exports.CellCarrier = databaseConnector.CellCarrier
-exports.NotificationType = databaseConnector.NotificationType
-exports.Option = databaseConnector.Option
-exports.Role = databaseConnector.Role
-exports.Route = databaseConnector.Route
-exports.Status = databaseConnector.Status
-exports.User = databaseConnector.User

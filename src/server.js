@@ -10,7 +10,7 @@ const web = express();
 
 web.listen(port,function(){
   console.log(`server is running on port ${port}`)
-  application.firstRun({database: "2farp_dev", username: "root", pass: "toor", host: "localhost", port: 3306, logging: false, dialect: "mysql"})
+  application.firstRun({database: "2farp_dev", username: "root", password: "toor", host: "localhost", port: 3306, logging: false, dialect: "mysql"})
   application.databaseBuilder()
 })
 

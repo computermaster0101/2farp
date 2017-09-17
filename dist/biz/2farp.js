@@ -49,11 +49,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var Utilities = require('./Utilities');
+
 var TwoFactorAuthenticationReverseProxy = (_temp = _class = function TwoFactorAuthenticationReverseProxy() {
   _classCallCheck(this, TwoFactorAuthenticationReverseProxy);
+}, _class.firstRun = function (databaseOptions) {
+  Utilities.writeDatasource(databaseOptions);
+  console.log('first run complete');
 }, _class.databaseBuilder = function () {
-  _DatabaseConnector.Database.authenticate().then(function () {
-    return console.log('Beginning database sync');
+  console.log('databaseBuilder started');
+  Utilities.readDatasource().then(function (datasourceOptions) {
+    return (0, _DatabaseConnector.DatabaseConnector)(datasourceOptions);
   }).then(function () {
     return _DatabaseConnector.Database.sync({ force: true, match: /_dev$/ });
   }).then(function () {
@@ -73,7 +79,13 @@ var TwoFactorAuthenticationReverseProxy = (_temp = _class = function TwoFactorAu
   }).then(function () {
     return _CellCarrierService2.default.addDefaults();
   }).then(function () {
+    return _AccessGroupRuleService2.default.addDefaults(1, 1);
+  }).then(function () {
+    return _UserService2.default.addDefault();
+  }).then(function () {
     return console.log('Database Created');
+  }).catch(function (e) {
+    console.log('' + e);
   });
 }, _temp);
 exports.default = TwoFactorAuthenticationReverseProxy;

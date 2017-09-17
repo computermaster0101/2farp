@@ -1,4 +1,4 @@
-import { Database } from '../db/DatabaseConnector'
+import { DatabaseConnector, Database } from '../db/DatabaseConnector'
 import OptionService from '../service/OptionService'
 import StatusService from '../service/StatusService'
 import RoleService from '../service/RoleService'
@@ -20,11 +20,9 @@ export default class TwoFactorAuthenticationReverseProxy {
 
   static databaseBuilder = function(){
     console.log(`databaseBuilder started`)
-    let databaseOptions = Utilities.readDatasource()
-
-    Database.authenticate()
-    .then(() => console.log(`Beginning database sync`))
-/*    .then(() => Database.sync({ force: true, match: /_dev$/ }))
+    Utilities.readDatasource()
+    .then((datasourceOptions) => DatabaseConnector(datasourceOptions))
+    .then(() => Database.sync({ force: true, match: /_dev$/ }))
     .then(() => console.log(`Creating Database`))
     .then(() => OptionService.addDefaults())
     .then(() => StatusService.addDefaults())
@@ -33,7 +31,12 @@ export default class TwoFactorAuthenticationReverseProxy {
     .then(() => AccessGroupService.addDefaults())
     .then(() => RouteService.addDefaults())
     .then(() => CellCarrierService.addDefaults())
+    .then(() => AccessGroupRuleService.addDefaults(1,1))
+    .then(() => UserService.addDefault())
     .then(() => console.log(`Database Created`))
-  */ //todo: this is working already. Remove this comment once reading the db options file is done
+    .catch((e) => {
+      console.log(`${e}`)
+    })
   }
 }
+

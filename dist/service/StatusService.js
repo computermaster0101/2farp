@@ -14,6 +14,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var StatusService = (_temp = _class = function StatusService() {
   _classCallCheck(this, StatusService);
 }, _class.addDefaults = function () {
-  return _DatabaseConnector.Status.bulkCreate([{ name: 'incomplete' }, { name: 'complete' }, { name: 'locked' }, { name: 'revoked' }]);
+  return _DatabaseConnector.Status.bulkCreate([{ name: 'Incomplete' }, { name: 'Complete' }, { name: 'Locked' }, { name: 'Revoked' }]);
 }, _temp);
 exports.default = StatusService;

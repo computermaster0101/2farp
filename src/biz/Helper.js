@@ -19,7 +19,6 @@ export class Datasource{
             reject(`${datasourceFile} format error!`)
           }
       }
-      console.log(`Helper databaseOptions: ${JSON.stringify(options)}`)
       resolve(options)
       })
     })

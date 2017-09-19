@@ -8,22 +8,14 @@ import RouteService from '../service/RouteService'
 import CellCarrierService from '../service/CellCarrierService'
 import AccessGroupRuleService from '../service/AccessGroupRuleService'
 import UserService from '../service/UserService'
+import ValidationService from '../service/ValidationService'
 
-let Utilities = require('./Utilities')
-
-export default class TwoFactorAuthenticationReverseProxy {
-
-  static firstRun = function(databaseOptions){
-    Utilities.writeDatasource(databaseOptions)
-    console.log(`first run complete`)
-  }
+export default class Main {
 
   static databaseBuilder = function(){
     console.log(`databaseBuilder started`)
-    Utilities.readDatasource()
-    .then((datasourceOptions) => DatabaseConnector(datasourceOptions))
-    .then(() => Database.sync({ force: true, match: /_dev$/ }))
-    .then(() => console.log(`Creating Database`))
+    return Database.sync({ force: true, match: /_dev$/ })
+    .then(() => console.log(`creating database`))
     .then(() => OptionService.addDefaults())
     .then(() => StatusService.addDefaults())
     .then(() => RoleService.addDefaults())
@@ -33,7 +25,7 @@ export default class TwoFactorAuthenticationReverseProxy {
     .then(() => CellCarrierService.addDefaults())
     .then(() => AccessGroupRuleService.addDefaults(1,1))
     .then(() => UserService.addDefault())
-    .then(() => console.log(`Database Created`))
+    .then(() => console.log(`database created`))
     .catch((e) => {
       console.log(`${e}`)
     })

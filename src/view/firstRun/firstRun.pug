@@ -1,0 +1,101 @@
+doctype html
+html(lang='en')
+  head
+    title 2fa Reverse Proxy
+    style(type='text/html')
+  body
+    div(align='center' position='fixed' height='100%' style='board-style: solid')
+      h1 Secured Site Setup Wizard
+      br
+      p(style='color: red') #{status}
+      form(method='post' name='form' enctype='application/x-www-form-urlencoded')
+        table
+          tr
+            td &nbsp;
+            th Database Settings
+            td &nbsp;
+          tr
+            td
+              label(for='databaseName') Database Name:
+            td
+              input(name='databaseName' type='text' value='2farp_dev')
+          tr
+            td
+              label(for='databaseHost') Database Host:
+            td
+              input(name='databaseHost' type='text' value='localhost')
+          tr
+            td
+              label(for:'databasePort') Database Port:
+            td
+              input(name='databasePort' type='number' value='3306')
+          tr
+            td
+              label(for='databaseUser') Database Username:
+            td
+              input(name='databaseUser' type='text' value='root')
+          tr
+            td
+              label(for='databasePass') Database Password:
+            td
+              input(name='databasePass' type='password' value='toor')
+          tr
+            td
+              label(for='databaseLogging') Database logging:
+            td
+              input(name='databaseLogging' type='radio' value='true')
+              | True
+              input(name='databaseLogging' type='radio' value='false' checked)
+              | False
+          tr
+            td
+              label(for='databaseDialect') Database Dialect:
+            td
+              select(name='databaseDialect' type='select')
+                option(name='mysql' value='mysql') MySQL
+                option(name='mysql' value='mssql') MSSQL
+                option(name='mysql' value='postgres') PostgreSQL
+                option(name='mysql' value='sqlite') SQLite
+          tr
+            td &nbsp;
+            th Application Settings
+            td &nbsp;
+          tr
+            td
+              label(for='apiPort') API Port:
+            td
+              input(name='apiPort' type='text' value='8080')
+          tr
+            td
+              label(for='guiPort') GUI Port:
+            td
+              input(name='guiPort' type='text' value='8081')
+          tr
+            td
+              label(for='adminUser') Admin Username:
+            td
+              input(name='adminUser' type='text' value='admin')
+          tr
+            td
+              label(for='adminPass') Admin Password:
+            td
+              input(name='adminPass' type='password' value='pass')
+          tr
+            td
+              label(for='adminToken') Admin Token:
+            td
+              input(name='adminToken' type='number' value='')
+          tr
+            td Admin Secret:
+            td
+              img(src=token)
+        br
+        input(type='submit' value='Save')
+        | &emsp;
+        input(type='submit' value='Apply')
+        | &emsp;
+        input(type='submit' value='Test')
+      br
+      p Presented by Two Factor Authentication Reverse Proxy
+
+

@@ -9,11 +9,8 @@ html(lang='en')
       br
       p(style='color: red') #{status}
       form(method='post' name='form' enctype='application/x-www-form-urlencoded')
+        h3 Database Settings
         table
-          tr
-            td &nbsp;
-            th Database Settings
-            td &nbsp;
           tr
             td
               label(for='databaseName') Database Name:
@@ -57,9 +54,8 @@ html(lang='en')
                 option(name='mysql' value='postgres') PostgreSQL
                 option(name='mysql' value='sqlite') SQLite
           tr
-            td &nbsp;
-            th Application Settings
-            td &nbsp;
+        h3 Application Settings
+        table
           tr
             td
               label(for='apiPort') API Port:
@@ -90,11 +86,9 @@ html(lang='en')
             td
               img(src=token)
         br
-        input(type='submit' value='Save')
+        input(type='submit' value='Save' formaction='/database/saveSettings')
         | &emsp;
-        input(type='submit' value='Apply')
-        | &emsp;
-        input(type='submit' value='Test')
+        input(type='submit' value='Restart' formaction='/application/restart')
       br
       p Presented by Two Factor Authentication Reverse Proxy
 

@@ -1,8 +1,6 @@
 import Bootstrapper from './biz/Bootstrapper'
-import FirstRun from './biz/FirstRun'
 import FirstRunAPI from './routes/firstRun/api'
 import FirstRunGUI from './routes/firstRun/gui'
-import Main from './biz/Main'
 import MainAPI from './routes/main/api'
 import MainGUI from './routes/main/gui'
 
@@ -13,7 +11,6 @@ let guiDefaultPort = 9000;
 let firstRun = true;
 let apiPort
 let guiPort
-let app
 
 
 const express = require('express'); //https://www.npmjs.com/package/express
@@ -27,8 +24,6 @@ Bootstrapper.getProperties()
     console.log(`loading first run properties`)
     apiPort = apiDefaultPort
     guiPort = guiDefaultPort
-    console.log(`loading first run application`)
-    app = FirstRun
     console.log(`loading first run api`)
     api.use(FirstRunAPI)
     console.log(`loading first run gui`)
@@ -37,17 +32,15 @@ Bootstrapper.getProperties()
     console.log(`loading main application properties`)
     apiPort = appProperties.apiPort
     guiPort = appProperties.guiPort
-    console.log(`loading main application`)
-    app = Main
     console.log(`loading main api`)
     api.use(MainAPI)
     console.log(`loading main gui`)
     gui.use(MainGUI)
     console.log(`connecting to database`)
-    app.connectDatabase(appProperties)
+    Bootstrapper.connectDatabase(appProperties)
     console.log(`database connected`)
     console.log(`syncing database`)
-    app.databaseBuilder()
+    Bootstrapper.databaseBuilder()
     console.log(`database synced`)
   }
 })

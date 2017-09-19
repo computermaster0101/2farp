@@ -19,7 +19,6 @@ const gui = express()
 
 Bootstrapper.getProperties()
 .then((appProperties) => {
-  console.log(`${JSON.stringify(appProperties)}`)
   if(appProperties.firstRun){
     console.log(`loading first run properties`)
     apiPort = apiDefaultPort

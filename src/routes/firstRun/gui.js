@@ -12,8 +12,10 @@ const FirstRunGUI = module.exports = express()
       FirstRunGUI.use(bodyParser.urlencoded({extended:false}))
 
 let adminToken
+
 FirstRunGUI.get('*',function(req,res){
   adminToken = speakeasy.generateSecret()
+  Application.getProperties()
   qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
     res.render('firstRun',{token: qrImage})
   })
@@ -21,7 +23,10 @@ FirstRunGUI.get('*',function(req,res){
 
 
 FirstRunGUI.post('/database/saveSettings',function(req,res){
-  console.log(`saveSettings: ${JSON.stringify(req.body)}`)
+  let properties = req.body
+  properties.firstRun = 'false'
+  console.log(`saveSettings: ${JSON.stringify(properties)}`)
+  Application.saveProperties(properties)
   qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
     res.render('firstRun',{token: qrImage, status: 'accepted'})
   })

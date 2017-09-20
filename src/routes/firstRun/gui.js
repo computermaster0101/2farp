@@ -24,17 +24,22 @@ FirstRunGUI.get('*',function(req,res){
 
 FirstRunGUI.post('/database/saveSettings',function(req,res){
   let properties = req.body
-  properties.firstRun = 'false'
-  console.log(`saveSettings: ${JSON.stringify(properties)}`)
+  properties.firstRun = 'true'
   Application.saveProperties(properties)
-  qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
-    res.render('firstRun',{token: qrImage, status: 'accepted'})
+  .then((status) => {
+    qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
+      res.render('firstRun',{token: qrImage, status: status})
+    })
   })
 })
 
 FirstRunGUI.post('/application/restart',function(req,res){
-  console.log(`restart: ${JSON.stringify(req.body)}`)
-  qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
-    res.render('firstRun',{token: qrImage, status: 'accepted'})
+  let properties = req.body
+  properties.firstRun = 'true'
+  Application.respawn()
+  .then((status) => {
+    qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
+      res.render('firstRun',{token: qrImage, status: status})
+    })
   })
 })

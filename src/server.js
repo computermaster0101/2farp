@@ -19,7 +19,7 @@ const gui = express()
 
 Bootstrapper.getProperties()
 .then((appProperties) => {
-  if(appProperties.firstRun){
+  if(appProperties.firstRun === 'true'){
     console.log(`loading first run properties`)
     apiPort = apiDefaultPort
     guiPort = guiDefaultPort
@@ -35,12 +35,6 @@ Bootstrapper.getProperties()
     api.use(MainAPI)
     console.log(`loading main gui`)
     gui.use(MainGUI)
-    console.log(`connecting to database`)
-    Bootstrapper.connectDatabase(appProperties)
-    console.log(`database connected`)
-    console.log(`syncing database`)
-    Bootstrapper.databaseBuilder()
-    console.log(`database synced`)
   }
 })
 .then(() => {

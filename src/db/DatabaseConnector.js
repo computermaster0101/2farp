@@ -25,11 +25,11 @@ exports.DatabaseConnector = function(datasourceOptions){
   const options = { //fixme: these settings are straight up dev settings. IDC that i committed it because this will not exist later
     database: datasourceOptions.database,
     username: datasourceOptions.username,
-    pass: datasourceOptions.password,
+    pass: datasourceOptions.pass,
     config: {
       host: datasourceOptions.host,
       port: datasourceOptions.port,
-      logging: datasourceOptions.logging,
+      logging: false,
       dialect: datasourceOptions.dialect
     }
   }

@@ -11,7 +11,10 @@ import UserService from '../service/UserService'
 import ValidationService from '../service/ValidationService'
 
 export default class Main {
-
+  static shutdown = function(){
+    console.log(`shutdown function called`)
+    process.exit(0)
+  }
   static databaseBuilder = function(){
     console.log(`databaseBuilder started`)
     return Database.sync({ force: true, match: /_dev$/ })

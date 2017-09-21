@@ -25,7 +25,13 @@ export default class Application extends Bootstrapper{
 
   static respawn = function(){
     console.log(`${process.argv}`)
-    //child_process.exec(`node ${process.argv.slice(1)}`)
+    child_process.spawn(process.argv[0], [process.argv[1]], {
+      stdio: 'inherit',
+      detached: true
+    }).unref();
+  }
+
+  static shutdown = function(){
     process.exit(0)
   }
 

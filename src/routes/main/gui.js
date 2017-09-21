@@ -11,6 +11,10 @@ const MainGUI = module.exports = express()
       MainGUI.use(bodyParser.json())
       MainGUI.use(bodyParser.urlencoded({extended:false}))
 
+MainGUI.post('/application/shutdown',function(req,res){
+  Application.shutdown()
+})
+
 MainGUI.get('*',function(req,res){
   res.render('login')
 })

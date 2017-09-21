@@ -37,9 +37,11 @@ FirstRunGUI.post('/application/restart',function(req,res){
   let properties = req.body
   properties.firstRun = 'true'
   Application.respawn()
-  .then((status) => {
-    qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
-      res.render('firstRun',{token: qrImage, status: status})
-    })
+  qrcode.toDataURL(adminToken.otpauth_url, function(err, qrImage){
+    res.render('firstRun',{token: qrImage})
   })
+})
+
+FirstRunGUI.post('/application/shutdown',function(req,res){
+  Application.shutdown()
 })

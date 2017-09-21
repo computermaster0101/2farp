@@ -47,7 +47,6 @@ Bootstrapper.getProperties()
     })
   })
 })
-//app.firstRun({firstRun: true, apiPort: "8080", guiPort: "8081", database: "2farp_dev", username: "root", password: "toor", host: "localhost", port: 3306, logging: false, dialect: "mysql"})
 
 
 

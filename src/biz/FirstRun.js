@@ -29,6 +29,7 @@ export default class Application extends Bootstrapper{
       stdio: 'inherit',
       detached: true
     }).unref();
+    process.exit(0)
   }
 
   static shutdown = function(){

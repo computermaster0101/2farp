@@ -40,7 +40,7 @@ export default class Bootstrapper {
         apiPort: properties.apiPort,
         guiPort: properties.guiPort
       }
-      console.log(`${JSON.stringify(validate)}`)
+      console.log(`validated: ${JSON.stringify(validate)}`)
       resolve(validate)
     })
   }

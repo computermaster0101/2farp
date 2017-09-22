@@ -2,7 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import speakeasy from 'speakeasy'
 import qrcode from 'qrcode'
-import Application from '../../biz/Main'
+import Application from '../../biz/Tfarp'
 
 
 const MainGUI = module.exports = express()

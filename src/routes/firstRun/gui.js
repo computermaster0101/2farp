@@ -21,7 +21,6 @@ FirstRunGUI.get('*',function(req,res){
   })
 })
 
-
 FirstRunGUI.post('/database/saveSettings',function(req,res){
   let properties = req.body
   properties.firstRun = 'true'

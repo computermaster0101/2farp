@@ -2,13 +2,15 @@
 Two Factor Authentication Reverse Proxy written in Nodejs
 
 ## Resaerch
+logs  https://github.com/trentm/node-bunyan/
+
 debug https://www.npmjs.com/package/debug
+
 tests https://github.com/mochajs/mocha
       https://github.com/chaijs/chai
-logs  https://github.com/trentm/node-bunyan/
-devTools http://livereload.com/
-         http://nodemon.io/
-         https://eslint.org/
+
+devTools https://eslint.org/
+
 profiling https://newrelic.com/nodejs
           https://strongloop.com/node-js/monitoring/
           https://polyverse.io/

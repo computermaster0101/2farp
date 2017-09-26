@@ -16,5 +16,5 @@ MainGUI.post('/application/shutdown',function(req,res){
 })
 
 MainGUI.get('*',function(req,res){
-  res.render('login')
+  res.json({pid: `${process.pid}`})
 })

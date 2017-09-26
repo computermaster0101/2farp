@@ -15,40 +15,32 @@ html(lang='en')
             td
               label(for='database') Database Name:
             td
-              input(name='database' type='text' value='2farp_dev')
+              input(name='database' type='text' value=properties.database)
           tr
             td
               label(for='host') Database Host:
             td
-              input(name='host' type='text' value='localhost')
+              input(name='host' type='text' value=properties.host)
           tr
             td
               label(for:'port') Database Port:
             td
-              input(name='port' type='number' value='3306')
+              input(name='port' type='number' value=properties.port)
           tr
             td
               label(for='username') Database Username:
             td
-              input(name='username' type='text' value='root')
+              input(name='username' type='text' value=properties.username)
           tr
             td
               label(for='pass') Database Password:
             td
-              input(name='pass' type='password' value='toor')
-          tr
-            td
-              label(for='logging') Database logging:
-            td
-              input(name='logging' type='radio' value='true')
-              | True
-              input(name='logging' type='radio' value='false' checked)
-              | False
+              input(name='pass' type='password' value=properties.pass)
           tr
             td
               label(for='databaseDialect') Database Dialect:
             td
-              select(name='dialect' type='select')
+              select(name='dialect' type='select' value=properties.dialect)
                 option(name='mysql' value='mysql') MySQL
                 option(name='mssql' value='mssql') MSSQL
                 option(name='postgres' value='postgres') PostgreSQL
@@ -60,12 +52,12 @@ html(lang='en')
             td
               label(for='apiPort') API Port:
             td
-              input(name='apiPort' type='text' value='8080')
+              input(name='apiPort' type='text' value=properties.apiPort)
           tr
             td
               label(for='guiPort') GUI Port:
             td
-              input(name='guiPort' type='text' value='8081')
+              input(name='guiPort' type='text' value=properties.guiPort)
           tr
             td
               label(for='adminUser') Admin Username:
@@ -86,11 +78,9 @@ html(lang='en')
             td
               img(src=token)
         br
-        input(type='submit' value='Save' formaction='/database/saveSettings')
+        input(type='submit' value='Test' formaction='/wizard/testOptions')
         | &emsp;
-        input(type='submit' value='Restart' formaction='/application/restart')
-        | &emsp;
-        input(type='submit' value='Shutdown' formaction='/application/shutdown')
+        input(type='submit' value='Restart' formaction='/wizard/restart')
       br
       p Presented by Two Factor Authentication Reverse Proxy
 

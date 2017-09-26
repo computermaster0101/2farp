@@ -22,30 +22,32 @@ exports.User
 
 exports.DatabaseConnector = function(datasourceOptions){
 
-  const options = { //fixme: these settings are straight up dev settings. IDC that i committed it because this will not exist later
-    database: datasourceOptions.database,
-    username: datasourceOptions.username,
-    pass: datasourceOptions.pass,
-    config: {
-      host: datasourceOptions.host,
-      port: datasourceOptions.port,
-      logging: false,
-      dialect: datasourceOptions.dialect
+  return new Promise((resolve,reject) => {
+    const options = {
+      database: datasourceOptions.database,
+      username: datasourceOptions.username,
+      pass: datasourceOptions.pass,
+      config: {
+        host: datasourceOptions.host,
+        port: datasourceOptions.port,
+        logging: false,
+        dialect: datasourceOptions.dialect
+      }
     }
-  }
 
-  const databaseConnector = new Builder(options, [AccessGroup, AccessGroupRule, CellCarrier, NotificationType, Option, Role, Route, Status, User]);
+    const databaseConnector = new Builder(options, [AccessGroup, AccessGroupRule, CellCarrier, NotificationType, Option, Role, Route, Status, User]);
 
-  module.exports.Database = databaseConnector.base
-  module.exports.AccessGroup = databaseConnector.AccessGroup
-  module.exports.AccessGroupRule = databaseConnector.AccessGroupRule
-  module.exports.CellCarrier = databaseConnector.CellCarrier
-  module.exports.NotificationType = databaseConnector.NotificationType
-  module.exports.Option = databaseConnector.Option
-  module.exports.Role = databaseConnector.Role
-  module.exports.Route = databaseConnector.Route
-  module.exports.Status = databaseConnector.Status
-  module.exports.User = databaseConnector.User
-
+    module.exports.Database = databaseConnector.base
+    module.exports.AccessGroup = databaseConnector.AccessGroup
+    module.exports.AccessGroupRule = databaseConnector.AccessGroupRule
+    module.exports.CellCarrier = databaseConnector.CellCarrier
+    module.exports.NotificationType = databaseConnector.NotificationType
+    module.exports.Option = databaseConnector.Option
+    module.exports.Role = databaseConnector.Role
+    module.exports.Route = databaseConnector.Route
+    module.exports.Status = databaseConnector.Status
+    module.exports.User = databaseConnector.User
+    resolve()
+  })
 
 }

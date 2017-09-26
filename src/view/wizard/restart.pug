@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+  head
+    title 2fa Reverse Proxy
+    style(type='text/html')
+    script.
+      window.onload = function(){
+        var countdownElement = document.getElementById('countdown'),
+            seconds = 10,
+            second = 0,
+            interval;
+
+        interval = setInterval(function(){
+          countdownElement.innerHTML = '<h3>Redirecting to <a href=#{redirectURL}>#{redirectURL}</a> in ' + (seconds - second) + ' seconds. Please wait.</h3>'
+          if (second >= seconds) {
+            clearInterval(interval)
+            window.location.href = '#{redirectURL}'
+          }
+          second++
+        }, 1000)
+      }
+  body
+    div(align='center' position='fixed' height='100%' style='board-style: solid')
+      h1 Secured Site Setup Wizard - Applying Settings
+      br
+      div(id='countdown')
+      br
+      p Presented by Two Factor Authentication Reverse Proxy

@@ -1,14 +1,19 @@
 import child_process from 'child_process'
+import Logger from 'bunyan-log'
 
-let subprocess
+const log = new Logger({name:'watcher', useStdOut: true, streams: [{path: './logs/application.log'}]})
+
+log.info('watcher thread started')
 
 function spawnAppThread(){
-  child_process.spawnSync(process.argv[0], ['./biz/Main.js'], {
-    stdio: 'inherit'
+  log.info('spawning new application thread pool',{command:`${process.argv}`})
+   child_process.spawn(process.argv[0], ['./biz/Main.js'], {
+    stdio: 'inherit',
+    env: {NODE_CLUSTER_SCHED_POLICY: 'rr'}
+  }).on('close',function(){
+    log.info('application thread pool terminated')
+    spawnAppThread()
   })
-  console.log('restarting....')
-  spawnAppThread()
-
 }
 
 spawnAppThread()

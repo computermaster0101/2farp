@@ -28,7 +28,7 @@ WizardGUI.get('*',function(req,res){
 })
 
 WizardGUI.post('/wizard/testOptions',function(req,res){
-  log.info(req.body)
+  log.debug(req.body)
   Application.testOptions(req.body)
   .then((fromApp) => {
     res.render('wizard',{datasourceOptions: fromApp.datasourceOptions, adminUserDefaults: fromApp.adminUserDefaults, status:fromApp.status})

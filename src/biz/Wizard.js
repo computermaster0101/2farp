@@ -17,11 +17,12 @@ export default class Application {
       this.readOptionsFile()
       .then((fromFile) => this.validateDatasourceOptions(fromFile))
       .then((validDatasourceOptions) => {
-        log.info(validDatasourceOptions)
+        log.debug(validDatasourceOptions)
         datasourceOptions=validDatasourceOptions
       })
       .then(() => this.validateAdminUserDefaults({}))
       .then((validDefaults) => {
+        log.debug(validDefaults)
         adminUserDefaults=validDefaults
       })
       .then(() => {
@@ -125,8 +126,7 @@ export default class Application {
         qrCode=data
         resolve({
           otpAuthUrl: optAuthUrl,
-          qrCode: qrCode,
-          secret: secret
+          qrCode: qrCode
         })
       })
     })

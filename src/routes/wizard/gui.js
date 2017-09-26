@@ -1,9 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import speakeasy from 'speakeasy'
-import qrcode from 'qrcode'
-import Application from '../../biz/Wizard'
 import Logger from 'bunyan-log'
+import Application from '../../biz/Wizard'
 
 const log = new Logger({name:'gui', useStdOut: true, isNewProcess: true})
 
@@ -17,9 +15,10 @@ const WizardGUI = module.exports = express()
 WizardGUI.get('/wizard/loadOptions',function(req,res){
   Application.loadOptions()
   .then((fromApp) => {
-    res.render('wizard',{properties: fromApp})
+    res.render('wizard',{datasourceOptions: fromApp.datasourceOptions, adminUserDefaults: fromApp.adminUserDefaults})
   })
 })
+
 WizardGUI.get('/favicon.ico',function(req,res){
   res.status(200).end()
 }) //fixme: wtf is this
@@ -29,15 +28,15 @@ WizardGUI.get('*',function(req,res){
 })
 
 WizardGUI.post('/wizard/testOptions',function(req,res){
-  let fromUser = req.body
-  Application.testOptions(fromUser)
+  log.info(req.body)
+  Application.testOptions(req.body)
   .then((fromApp) => {
-    res.render('wizard',{properties: fromApp.properties, status:fromApp.status})
+    res.render('wizard',{datasourceOptions: fromApp.datasourceOptions, adminUserDefaults: fromApp.adminUserDefaults, status:fromApp.status})
   })
 })
 
 WizardGUI.post('/wizard/restart',function(req,res){
-  Application.restart()
+  Application.restart({protocol: req.protocol, hostname: req.hostname})
   .then((fromApp) => {
     res.render('restart', {redirectURL: fromApp.redirectURL})
   })

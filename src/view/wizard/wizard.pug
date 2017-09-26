@@ -1,4 +1,4 @@
-doctype html
+doctype html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"
 html(lang='en')
   head
     title 2fa Reverse Proxy
@@ -6,58 +6,40 @@ html(lang='en')
   body
     div(align='center' position='fixed' height='100%' style='board-style: solid')
       h1 Secured Site Setup Wizard
-      br
       p(style='color: red') #{status}
       form(method='post' name='form' enctype='application/x-www-form-urlencoded')
-        h3 Database Settings
+        h3 Admin User Profile
         table
           tr
             td
-              label(for='database') Database Name:
+              label(for='first') First Name:
             td
-              input(name='database' type='text' value=properties.database)
+              input(name='first' type='text' value='FirstName')
           tr
             td
-              label(for='host') Database Host:
+              label(for='last') Last Name:
             td
-              input(name='host' type='text' value=properties.host)
+              input(name='last' type='text' value='LastName')
           tr
             td
-              label(for:'port') Database Port:
+              label(for='phone') Phone Number:
             td
-              input(name='port' type='number' value=properties.port)
+              input(name='phone' type='tel' value='000-000-0000')
           tr
             td
-              label(for='username') Database Username:
+              label(for='email') Email Address:
             td
-              input(name='username' type='text' value=properties.username)
+              input(name='email' type='email' value='admin@admin.admin')
           tr
             td
-              label(for='pass') Database Password:
+              label(for='accountResetPassphraseOne') Account Reset Passphrase One:
             td
-              input(name='pass' type='password' value=properties.pass)
+              input(name='accountResetPassphraseOne' type='text' value='')
           tr
             td
-              label(for='databaseDialect') Database Dialect:
+              label(for='accountResetPassphraseTwo') Account Reset Passphrase Two:
             td
-              select(name='dialect' type='select' value=properties.dialect)
-                option(name='mysql' value='mysql') MySQL
-                option(name='mssql' value='mssql') MSSQL
-                option(name='postgres' value='postgres') PostgreSQL
-                option(name='sqlite' value='sqlite') SQLite
-          tr
-        h3 Application Settings
-        table
-          tr
-            td
-              label(for='apiPort') API Port:
-            td
-              input(name='apiPort' type='text' value=properties.apiPort)
-          tr
-            td
-              label(for='guiPort') GUI Port:
-            td
-              input(name='guiPort' type='text' value=properties.guiPort)
+              input(name='accountResetPassphraseTwo' type='text' value='')
           tr
             td
               label(for='adminUser') Admin Username:
@@ -74,13 +56,67 @@ html(lang='en')
             td
               input(name='adminToken' type='number' value='')
           tr
-            td Admin Secret:
             td
-              img(src=token)
+              label(for='otpAuthUrl') Admin Secret:
+            td
+              input(name='otpAuthUrl' type='text' value=adminUserDefaults.otpAuthUrl hidden='true')
+          tr
+            td
+            td
+              img(src=adminUserDefaults.qrCode)
+        h3 Database Settings
+        table
+          tr
+            td
+              label(for='database') Database Name:
+            td
+              input(name='database' type='text' value=datasourceOptions.database)
+          tr
+            td
+              label(for='host') Database Host:
+            td
+              input(name='host' type='text' value=datasourceOptions.host)
+          tr
+            td
+              label(for:'port') Database Port:
+            td
+              input(name='port' type='number' value=datasourceOptions.port)
+          tr
+            td
+              label(for='username') Database Username:
+            td
+              input(name='username' type='text' value=datasourceOptions.username)
+          tr
+            td
+              label(for='pass') Database Password:
+            td
+              input(name='pass' type='password' value=datasourceOptions.pass)
+          tr
+            td
+              label(for='databaseDialect') Database Dialect:
+            td
+              select(name='dialect' type='select' value=datasourceOptions.dialect)
+                option(name='mysql' value='mysql') MySQL
+                option(name='mssql' value='mssql') MSSQL
+                option(name='postgres' value='postgres') PostgreSQL
+                option(name='sqlite' value='sqlite') SQLite
+          tr
+        h3 Application Settings
+        table
+          tr
+            td
+              label(for='apiPort') API Port:
+            td
+              input(name='apiPort' type='text' value=datasourceOptions.apiPort)
+          tr
+            td
+              label(for='guiPort') GUI Port:
+            td
+              input(name='guiPort' type='text' value=datasourceOptions.guiPort)
         br
         input(type='submit' value='Test' formaction='/wizard/testOptions')
         | &emsp;
-        input(type='submit' value='Restart' formaction='/wizard/restart')
+        input(type='submit' value='Shutdown' formaction='/wizard/restart')
       br
       p Presented by Two Factor Authentication Reverse Proxy
 

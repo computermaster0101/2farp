@@ -46,6 +46,7 @@ var Role = (_dec = (0, _sequelizeClasses.paranoid)(true), _dec2 = (0, _sequelize
       }
     }, _this.name = {
       type: _sequelize2.default.STRING(32),
+      unique: true,
       allowNull: false,
       validate: {
         notEmpty: true

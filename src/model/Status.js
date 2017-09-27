@@ -19,6 +19,7 @@ export default class Status extends Model {
   }
   name = {
     type: Sequelize.STRING(32),
+    unique: true,
     allowNull: false,
     validate: {
       notEmpty: true

@@ -46,6 +46,7 @@ var Option = (_dec = (0, _sequelizeClasses.paranoid)(true), _dec2 = (0, _sequeli
       }
     }, _this.key = {
       type: _sequelize2.default.STRING,
+      unique: true,
       allowNull: false,
       validate: {
         notEmpty: true

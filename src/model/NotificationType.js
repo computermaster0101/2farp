@@ -14,6 +14,7 @@ export default class NotificationType extends Model {
   }
   name = {
     type: Sequelize.STRING(32),
+    unique: true,
     allowNull: false,
     validate: {
       notEmpty: true

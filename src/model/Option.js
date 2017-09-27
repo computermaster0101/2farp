@@ -19,6 +19,7 @@ export default class Option extends Model {
   }
   key = {
     type: Sequelize.STRING,
+    unique: true,
     allowNull: false,
     validate: {
       notEmpty: true

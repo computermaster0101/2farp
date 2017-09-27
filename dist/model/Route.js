@@ -47,11 +47,13 @@ var Route = (_dec = (0, _sequelizeClasses.paranoid)(true), _dec2 = (0, _sequeliz
     }, _this.name = {
       type: _sequelize2.default.STRING(32),
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: true
       }
     }, _this.path = {
       type: _sequelize2.default.STRING(32),
+      unique: true,
       allowNull: false,
       validate: {
         notEmpty: true

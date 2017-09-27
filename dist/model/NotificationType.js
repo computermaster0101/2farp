@@ -44,6 +44,7 @@ var NotificationType = function (_Model) {
       }
     }, _this.name = {
       type: _sequelize2.default.STRING(32),
+      unique: true,
       allowNull: false,
       validate: {
         notEmpty: true

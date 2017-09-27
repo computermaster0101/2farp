@@ -19,12 +19,14 @@ export default class Route extends Model {
   name = {
     type: Sequelize.STRING(32),
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true
     }
   }
   path = {
     type: Sequelize.STRING(32),
+    unique: true,
     allowNull: false,
     validate: {
       notEmpty: true

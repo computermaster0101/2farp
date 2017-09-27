@@ -45,12 +45,14 @@ var CellCarrier = function (_Model) {
     }, _this.name = {
       type: _sequelize2.default.STRING(32),
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: true
       }
     }, _this.domain = {
       type: _sequelize2.default.STRING(32),
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: true
       }

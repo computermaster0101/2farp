@@ -18,6 +18,7 @@ export default class AccessGroup extends Model {
   }
   name = {
     type: Sequelize.STRING(32),
+    unique: true,
     allowNull: false,
     validate: {
       notEmpty: true

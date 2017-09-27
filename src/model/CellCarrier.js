@@ -15,6 +15,7 @@ export default class CellCarrier extends Model {
   name = {
     type: Sequelize.STRING(32),
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true
     }
@@ -22,6 +23,7 @@ export default class CellCarrier extends Model {
   domain = {
     type: Sequelize.STRING(32),
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true
     }

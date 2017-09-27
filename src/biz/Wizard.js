@@ -1,6 +1,6 @@
 import fs from 'fs'
 import Logger from 'bunyan-log'
-import { DatabaseConnector, Database, Option, User, Role, CellCarrier, AccessGroup, NotificationType, Status } from '../db/DatabaseConnector'
+import { DatabaseConnector, Database, Option, User, Role, Route, AccessGroupRule, CellCarrier, AccessGroup, NotificationType, Status } from '../db/DatabaseConnector'
 
 import qrcode from 'qrcode'
 
@@ -145,6 +145,27 @@ export default class Application {
     log.debug(adminUserDefaults)
     return Database.sync({ force: true, match: /_dev$/ })
     .then(() => log.info(`creating database`))
+    .then(() => User.create({
+      first: adminUserDefaults.first,
+      last : adminUserDefaults.last,
+      phone: adminUserDefaults.phone,
+      email: adminUserDefaults.email,
+      username: adminUserDefaults.username,
+      password: adminUserDefaults.password,
+      key: 'OJ3TS4BTIY7TA4LTGF3FW5SCMY7V2P3J',
+      salt: 'f75c002cda45152e3c31721acd0372527aeaf94fcf0fdee05466e3f91c7c1129',
+      qrData: adminUserDefaults.otpAuthUrl,
+      lastAttempt: null,
+      failedAttempts: null,
+      accountResetPassphraseOne: 'f75c002cda45152e3c31721acd0372527aeaf94fcf0fdee05466e3f91c7c1129',
+      accountResetPassphraseTwo: 'f75c002cda45152e3c31721acd0372527aeaf94fcf0fdee05466e3f91c7c1129',
+      passwordReset: '123456789.123',
+      Role: {name: 'admin'},
+      CellCarrier: {name: 'Verizon', domain: 'vzwpix.com'},
+      AccessGroup: {name: 'Default'},
+      NotificationType: {name: 'email'},
+      Status: {name: 'Incomplete'}
+    }, {include: [ Role, CellCarrier, NotificationType, Status, AccessGroup ]}))
     .then(() => Option.bulkCreate([
       {key: 'Force email as username', value: 'false'},
       {key: 'Enable "Account Signup"', value: 'false'},
@@ -160,43 +181,18 @@ export default class Application {
       {key: 'Java Mail Options', value: 'Not Configured'}
     ]))
     .then(() => Status.bulkCreate([
-      {name: 'Incomplete'},
       {name: 'Complete'},
       {name: 'Locked'},
       {name: 'Revoked'}
     ]))
     .then(() => Role.bulkCreate([
-      {name: 'admin'},
       {name: 'user'}
     ]))
     .then(() => NotificationType.bulkCreate([
-      {name: 'email'},
       {name: 'phone'}
     ]))
-    .then(() => CellCarrier.bulkCreate([
-      {name: 'Verizon', domain: 'vzwpix.com'}
-    ]))
-    .then(() => User.create({
-      first: adminUserDefaults.first,
-      last : adminUserDefaults.last,
-      phone: adminUserDefaults.phone,
-      email: adminUserDefaults.email,
-      username: adminUserDefaults.username,
-      password: adminUserDefaults.password,
-      key: null,
-      salt: null,
-      qrData: null,
-      lastAttempt: null,
-      failedAttempts: null,
-      accountResetPassphraseOne: null,
-      accountResetPassphraseTwo: null,
-      passwordReset: null,
-      RoleId: 1,
-      CellCarrierId: 1,
-      AccessGroupId: 1,
-      NotificationTypeId: 1,
-      StatusId: 1
-    }))
+    .then(() => Route.create({name: 'Default', path: '/', destination: 'http://localhost:9000/', authenticated: false}))
+    .then(() => AccessGroupRule.create({AccessGroupId: 1, RouteId: 1}))
     .then(() => log.info(`database created`))
   }
 

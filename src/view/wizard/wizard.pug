@@ -6,7 +6,7 @@ html(lang='en')
   body
     div(align='center' position='fixed' height='100%' style='board-style: solid')
       h1 Secured Site Setup Wizard
-      p(style='color: red') #{status}
+      pre(style='color: red') #{status}
       form(method='post' name='form' enctype='application/x-www-form-urlencoded')
         h3 Admin User Profile
         table
@@ -14,22 +14,22 @@ html(lang='en')
             td
               label(for='first') First Name:
             td
-              input(name='first' type='text' value='FirstName')
+              input(name='first' type='text' value=adminUserDefaults.first)
           tr
             td
               label(for='last') Last Name:
             td
-              input(name='last' type='text' value='LastName')
+              input(name='last' type='text' value=adminUserDefaults.last)
           tr
             td
               label(for='phone') Phone Number:
             td
-              input(name='phone' type='tel' value='0000000000')
+              input(name='phone' type='tel' value=adminUserDefaults.phone)
           tr
             td
               label(for='email') Email Address:
             td
-              input(name='email' type='email' value='admin@admin.admin')
+              input(name='email' type='email' value=adminUserDefaults.email)
           tr
             td
               label(for='accountResetPassphraseOne') Account Reset Passphrase One:
@@ -44,7 +44,7 @@ html(lang='en')
             td
               label(for='adminUser') Admin Username:
             td
-              input(name='adminUser' type='text' value='admin')
+              input(name='adminUser' type='text' value=adminUserDefaults.username)
           tr
             td
               label(for='adminPass') Admin Password:

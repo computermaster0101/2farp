@@ -1,6 +1,6 @@
 import fs from 'fs'
 import Logger from 'bunyan-log'
-import { DatabaseConnector, Database } from '../db/DatabaseConnector'
+import { DatabaseConnector, Database, Option, User, Role, CellCarrier, AccessGroup, NotificationType, Status } from '../db/DatabaseConnector'
 
 import qrcode from 'qrcode'
 
@@ -39,19 +39,21 @@ export default class Application {
       let datasourceOptions
       this.validateDatasourceOptions(fromWizard)
       .then((validDatasourceOptions) => {
-        datasourceOptions = validDatasourceOptions
+        datasourceOptions=validDatasourceOptions
       })
       .then(() => this.validateAdminUserDefaults(fromWizard))
       .then((validDefaults) => {
+        log.debug(validDefaults)
         adminUserDefaults=validDefaults
       })
       .then(() => DatabaseConnector(datasourceOptions))
       .then(() => Database.authenticate())
       .then(() => this.WriteOptionsFile(datasourceOptions))
+      .then(() => this.buildDatabase(adminUserDefaults))
       .then(() => {
         log.debug(datasourceOptions)
         log.debug(adminUserDefaults)
-        resolve({datasourceOptions: datasourceOptions, adminUserDefaults:adminUserDefaults, status: 'Database connection successfully tested'})
+        resolve({datasourceOptions: datasourceOptions, adminUserDefaults:adminUserDefaults, status: 'Database connection successfully tested\nDatabase has been successfully created'})
       })
       .catch((e) => {
         log.debug(datasourceOptions)
@@ -118,6 +120,7 @@ export default class Application {
   }
 
   static validateAdminUserDefaults = function(defaults){
+    log.debug(defaults)
     return new Promise((resolve,reject) => {
       let secret = defaults.secret || speakeasy.generateSecret()
       let optAuthUrl = defaults.otpAuthUrl || secret.otpauth_url
@@ -126,10 +129,75 @@ export default class Application {
         qrCode=data
         resolve({
           otpAuthUrl: optAuthUrl,
-          qrCode: qrCode
+          qrCode: qrCode,
+          first: defaults.first || 'admin',
+          last : defaults.last || 'istrator',
+          phone: defaults.phone || '1234567890',
+          email: defaults.email || 'admin@example.com',
+          username: defaults.adminUser || 'admin',
+          password: defaults.adminPass
         })
       })
     })
+  }
+
+  static buildDatabase = function(adminUserDefaults){
+    log.debug(adminUserDefaults)
+    return Database.sync({ force: true, match: /_dev$/ })
+    .then(() => log.info(`creating database`))
+    .then(() => Option.bulkCreate([
+      {key: 'Force email as username', value: 'false'},
+      {key: 'Enable "Account Signup"', value: 'false'},
+      {key: 'Enable "Update Profile"', value: 'false'},
+      {key: 'Default session timeout (ms)', value: '36000'},
+      {key: 'Notify admins when accounts lock', value: 'false'},
+      {key: 'Notify user when account locks', value: 'false'},
+      {key: 'Password expiration minimum policy (days)', value: '90'},
+      {key: 'Password expiration maximum policy (days)', value: '90'},
+      {key: 'Password expiration soft notification (days)', value: '90'},
+      {key: 'Password expiration hard notification (days)', value: '90'},
+      {key: 'Account lock policy (attempts)', value: '99'},
+      {key: 'Java Mail Options', value: 'Not Configured'}
+    ]))
+    .then(() => Status.bulkCreate([
+      {name: 'Incomplete'},
+      {name: 'Complete'},
+      {name: 'Locked'},
+      {name: 'Revoked'}
+    ]))
+    .then(() => Role.bulkCreate([
+      {name: 'admin'},
+      {name: 'user'}
+    ]))
+    .then(() => NotificationType.bulkCreate([
+      {name: 'email'},
+      {name: 'phone'}
+    ]))
+    .then(() => CellCarrier.bulkCreate([
+      {name: 'Verizon', domain: 'vzwpix.com'}
+    ]))
+    .then(() => User.create({
+      first: adminUserDefaults.first,
+      last : adminUserDefaults.last,
+      phone: adminUserDefaults.phone,
+      email: adminUserDefaults.email,
+      username: adminUserDefaults.username,
+      password: adminUserDefaults.password,
+      key: null,
+      salt: null,
+      qrData: null,
+      lastAttempt: null,
+      failedAttempts: null,
+      accountResetPassphraseOne: null,
+      accountResetPassphraseTwo: null,
+      passwordReset: null,
+      RoleId: 1,
+      CellCarrierId: 1,
+      AccessGroupId: 1,
+      NotificationTypeId: 1,
+      StatusId: 1
+    }))
+    .then(() => log.info(`database created`))
   }
 
 }

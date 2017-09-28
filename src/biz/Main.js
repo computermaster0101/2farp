@@ -6,8 +6,14 @@ import os from 'os'
 if(cluster.isMaster){ //todo: requires code review
   const log = new Logger({name:'master', useStdOut: true, isNewProcess: true})
 
-  //const maxThreads = (os.cpus().length * 2) //fixme: true value
-  const maxThreads = 1 //fixme: testing value
+  const multiThreaded = false
+  let maxThreads
+
+  if(multiThreaded){
+    maxThreads = (os.cpus().length * 2) //fixme: true value
+  }else{
+    maxThreads = 1 //fixme: testing value
+  }
 
   log.info(`application thread pool started`)
   log.info(`generating ${maxThreads} worker threads`)

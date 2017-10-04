@@ -22,16 +22,18 @@ exports.User
 
 exports.DatabaseConnector = function(datasourceOptions){
 
+
   return new Promise((resolve,reject) => {
+
     const options = {
-      database: datasourceOptions.database,
-      username: datasourceOptions.username,
-      pass: datasourceOptions.pass,
+      database: datasourceOptions.database[0],
+      username: datasourceOptions.username[0],
+      pass: datasourceOptions.pass[0],
       config: {
-        host: datasourceOptions.host,
-        port: datasourceOptions.port,
+        host: datasourceOptions.host[0],
+        port: datasourceOptions.port[0],
         logging: false,
-        dialect: datasourceOptions.dialect
+        dialect: datasourceOptions.dialect[0]
       }
     }
 

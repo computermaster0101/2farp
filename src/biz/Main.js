@@ -1,35 +1,34 @@
+import Logger from '../service/common/Logger'
 import Bootstrapper from './Bootstrapper'
-import Logger from 'bunyan-log'
 import cluster from 'cluster'
 import os from 'os'
 
-if(cluster.isMaster){ //todo: requires code review
-  const log = new Logger({name:'master', useStdOut: true, isNewProcess: true})
+cluster.isMaster ? launchMaster() : launchWorker()
+
+function launchMaster(){
+  Logger.info(`master thread started`)
 
   const multiThreaded = false
-  let maxThreads
+  const maxThreads = multiThreaded ? (os.cpus().length * 2) : 1
 
-  if(multiThreaded){
-    maxThreads = (os.cpus().length * 2) //fixme: true value
-  }else{
-    maxThreads = 1 //fixme: testing value
-  }
+  Logger.info(`spawning ${maxThreads} worker thread(s)`)
 
-  log.info(`application thread pool started`)
-  log.info(`generating ${maxThreads} worker threads`)
   for(let i = 0; i < maxThreads; i++){
     cluster.fork()
   }
   cluster.on('exit',(worker, code, signal) => {
-    log.info(`work thread died`)
-    log.info(`terminating application thread pool`)
+    Logger.error(`work thread died`)
+    Logger.error(`terminating application thread pool`)
     process.exit(0)
   })
-}else{
-  const log = new Logger({name:'worker', useStdOut: true, isNewProcess: true})
-  log.info(`worker thread started`)
+
+}
+function launchWorker(){
+  Logger.info(`worker thread started`)
+
   Bootstrapper.startup()
   process.on('SIGTERM', function(){
-    log.info(`lost worker thread`)
+    Logger.error(`lost worker thread`)
   })
+
 }

@@ -1,10 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
-import Logger from 'bunyan-log'
 import Application from '../../biz/Wizard'
-
-const log = new Logger({name:'gui', useStdOut: true, isNewProcess: true})
-
 
 const WizardGUI = module.exports = express()
       WizardGUI.set('views','./view/wizard')
@@ -15,7 +11,7 @@ const WizardGUI = module.exports = express()
 WizardGUI.get('/wizard/loadOptions',function(req,res){
   Application.loadOptions()
   .then((fromApp) => {
-    res.render('wizard',{datasourceOptions: fromApp.datasourceOptions, adminUserDefaults: fromApp.adminUserDefaults})
+    res.render('wizard',{options: fromApp.options, adminUserOptions: fromApp.adminUserOptions})
   })
 })
 
@@ -28,10 +24,9 @@ WizardGUI.get('*',function(req,res){
 })
 
 WizardGUI.post('/wizard/testOptions',function(req,res){
-  log.debug(req.body)
   Application.testOptions(req.body)
   .then((fromApp) => {
-    res.render('wizard',{datasourceOptions: fromApp.datasourceOptions, adminUserDefaults: fromApp.adminUserDefaults, status:fromApp.status})
+    res.render('wizard',{ status: fromApp.status, options: fromApp.options, adminUserOptions: fromApp.adminUserOptions })
   })
 })
 

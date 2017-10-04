@@ -14,22 +14,32 @@ html(lang='en')
             td
               label(for='first') First Name:
             td
-              input(name='first' type='text' value=adminUserDefaults.first)
+              input(name='first' type='text' value=adminUserOptions.first[0])
           tr
             td
               label(for='last') Last Name:
             td
-              input(name='last' type='text' value=adminUserDefaults.last)
+              input(name='last' type='text' value=adminUserOptions.last[0])
           tr
             td
               label(for='phone') Phone Number:
             td
-              input(name='phone' type='tel' value=adminUserDefaults.phone)
+              input(name='phone' type='tel' value=adminUserOptions.phone[0])
           tr
             td
               label(for='email') Email Address:
             td
-              input(name='email' type='email' value=adminUserDefaults.email)
+              input(name='email' type='email' value=adminUserOptions.email[0])
+          tr
+            td
+              label(for='adminUser') Admin Username:
+            td
+              input(name='adminUser' type='text' value=adminUserOptions.username[0])
+          tr
+            td
+              label(for='adminPass') Admin Password:
+            td
+              input(name='adminPass' type='password' value=adminUserOptions.password[0])
           tr
             td
               label(for='accountResetPassphraseOne') Account Reset Passphrase One:
@@ -42,60 +52,50 @@ html(lang='en')
               input(name='accountResetPassphraseTwo' type='text' value='')
           tr
             td
-              label(for='adminUser') Admin Username:
-            td
-              input(name='adminUser' type='text' value=adminUserDefaults.username)
-          tr
-            td
-              label(for='adminPass') Admin Password:
-            td
-              input(name='adminPass' type='password' value='pass')
-          tr
-            td
               label(for='adminToken') Admin Token:
             td
               input(name='adminToken' type='number' value='')
           tr
             td
-              label(for='otpAuthUrl') Admin Secret:
+              label(for='qrData') Admin Secret:
             td
-              input(name='otpAuthUrl' type='text' value=adminUserDefaults.otpAuthUrl hidden='true')
+              input(name='qrData' type='text' value=adminUserOptions.qrData[0] hidden='true')
           tr
             td
             td
-              img(src=adminUserDefaults.qrCode)
+              img(src=adminUserOptions.qrCode[0])
         h3 Database Settings
         table
           tr
             td
               label(for='database') Database Name:
             td
-              input(name='database' type='text' value=datasourceOptions.database)
+              input(name='database' type='text' value=options.datasource.database[0])
           tr
             td
               label(for='host') Database Host:
             td
-              input(name='host' type='text' value=datasourceOptions.host)
+              input(name='host' type='text' value=options.datasource.host[0])
           tr
             td
               label(for:'port') Database Port:
             td
-              input(name='port' type='number' value=datasourceOptions.port)
+              input(name='port' type='number' value=options.datasource.port[0])
           tr
             td
               label(for='username') Database Username:
             td
-              input(name='username' type='text' value=datasourceOptions.username)
+              input(name='username' type='text' value=options.datasource.username[0])
           tr
             td
               label(for='pass') Database Password:
             td
-              input(name='pass' type='password' value=datasourceOptions.pass)
+              input(name='pass' type='password' value=options.datasource.pass[0])
           tr
             td
               label(for='databaseDialect') Database Dialect:
             td
-              select(name='dialect' type='select' value=datasourceOptions.dialect)
+              select(name='dialect' type='select' value=options.datasource.dialect[0])
                 option(name='mysql' value='mysql') MySQL
                 option(name='mssql' value='mssql') MSSQL
                 option(name='postgres' value='postgres') PostgreSQL
@@ -107,12 +107,12 @@ html(lang='en')
             td
               label(for='apiPort') API Port:
             td
-              input(name='apiPort' type='text' value=datasourceOptions.apiPort)
+              input(name='apiPort' type='text' value=options.application.api.port[0])
           tr
             td
               label(for='guiPort') GUI Port:
             td
-              input(name='guiPort' type='text' value=datasourceOptions.guiPort)
+              input(name='guiPort' type='text' value=options.application.gui.port[0])
         br
         input(type='submit' value='Test' formaction='/wizard/testOptions')
         | &emsp;

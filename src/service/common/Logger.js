@@ -14,7 +14,7 @@ export default class Logger {
   }
 
   static debug = function(msg){
-    console.log(`lvl: debug, pid: ${process.pid}, msg: ${msg}`)
+    //console.log(`lvl: debug, pid: ${process.pid}, msg: ${msg}`)
   }
 
 }

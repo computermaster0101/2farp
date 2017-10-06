@@ -23,6 +23,8 @@ export default class Application {
         adminUserOptions=validAdmin
       })
       .then(() => {
+        adminUserOptions.password[0] = '********'
+        datasourceOptions.datasource.pass[0] = '********'
         resolve({ options:datasourceOptions, adminUserOptions:adminUserOptions })
       })
     })
@@ -50,10 +52,12 @@ export default class Application {
       .then(() => Transformer.transformDatasourceFromWizard(fromWizard))
       .then((formattedFromWizard) => fsHelper.writeOptionsFile(formattedFromWizard))
       .then(() => {
+        adminUserOptions.password[0] = '********'
+        datasourceOptions.datasource.pass[0] = '********'
         resolve({options: datasourceOptions, adminUserOptions: adminUserOptions, status: 'Database connection successfully tested\nDatabase has been successfully created'})
       })
       .catch((e) => {
-        resolve({options: datasourceOptions, adminUserOptions: adminUserOptions, status: e})
+        resolve({adminUserOptions: adminUserOptions, options: datasourceOptions, status: e})
       })
     })
   }

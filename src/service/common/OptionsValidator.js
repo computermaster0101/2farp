@@ -9,12 +9,12 @@ export default class OptionsValidator {
 
       const defaults = {
         application: {
-          gui: {
+          api: {
             port: 8000
           },
-          api: {
+          gui: {
             port: 9000
-          },
+          }
         },
         datasource: {
           database: 'mfarp',
@@ -34,9 +34,9 @@ export default class OptionsValidator {
               (options.application.api.port < 1024) ?  defaults.application.api.port :
               (options.application.api.port > 65535) ? defaults.application.api.port :
               options.application.api.port,
-              (typeof(options.application.api.port) != 'number') ? `${options.application.api.port} is not a number. Using default port` :
-              (options.application.api.port < 1024) ?  `port ${options.application.api.port} is to low. Using default port` :
-              (options.application.api.port > 65535) ? `port ${options.application.api.port} is to high. Using default port` :
+              (typeof(options.application.api.port) != 'number') ? `using default port ${options.application.api.port} is not a number` :
+              (options.application.api.port < 1024) ?  `using default port ${options.application.api.port} is to low` :
+              (options.application.api.port > 65535) ? `using default port ${options.application.api.port} is to high` :
               `port ${options.application.api.port} validated`
             ]
           },
@@ -46,7 +46,7 @@ export default class OptionsValidator {
               (options.application.gui.port < 1024) ?  defaults.application.gui.port :
               (options.application.gui.port > 65535) ? defaults.application.gui.port :
               options.application.gui.port,
-              (typeof(options.application.gui.port[0]) != 'number') ? `using default port ${options.application.gui.port} is not a number` :
+              (typeof(options.application.gui.port) != 'number') ? `using default port ${options.application.gui.port} is not a number` :
               (options.application.gui.port < 1024) ?  `using default port ${options.application.gui.port} is to low` :
               (options.application.gui.port > 65535) ? `using default port ${options.application.gui.port} is to high` :
               `port ${options.application.gui.port} validated`
@@ -78,7 +78,7 @@ export default class OptionsValidator {
           ],
           pass: [
             (typeof(options.datasource.pass) != 'string') ? defaults.datasource.pass : options.datasource.pass,
-            (typeof(options.datasource.pass) != 'string') ? `using default pass ${options.datasource.pass} is not a string` : `username ${options.datasource.pass} validated`
+            (typeof(options.datasource.pass) != 'string') ? `using default pass ${options.datasource.pass} is not a string` : `password validated`
           ],
           dialect: [
             (options.datasource.dialect === 'mysql') ? options.datasource.dialect :

@@ -22,6 +22,6 @@ WizardAPI.get('*',function(req,res){
 WizardAPI.post('/wizard/testOptions',function(req,res){
   Application.testOptions(req.body)
   .then((fromApp) => {
-    res.json({ status: fromApp.status, options: fromApp.options, adminUserOptions: fromApp.adminUserOptions })
+    res.json({ status: fromApp.status, adminUserOptions: fromApp.adminUserOptions, options: fromApp.options })
   })
 })

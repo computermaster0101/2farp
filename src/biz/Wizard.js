@@ -59,6 +59,8 @@ export default class Application {
 
       })
       .catch((e) => {
+        adminUserOptions.password.value = '********'
+        bootstrapOptions.datasource.pass.value = '********'
         resolve({ adminUserOptions: adminUserOptions, options: bootstrapOptions, status: e })
       })
     })

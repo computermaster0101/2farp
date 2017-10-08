@@ -62,7 +62,7 @@ export default class Validator {
       Logger.debug(`valid: ${JSON.stringify(valid)}`)
       resolve(valid)
 
-    }).catch((e) => console.log(e))
+    })
   }
 
 }

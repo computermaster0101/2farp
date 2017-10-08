@@ -1,21 +1,29 @@
 import Logger from '../service/common/Logger'
+import fsReader from '../service/common/fsLoader'
+import OptionsValidator from '../service/common/OptionsValidator'
 import Bootstrapper from './Bootstrapper'
 import cluster from 'cluster'
 import os from 'os'
 
-cluster.isMaster ? launchMaster() : launchWorker()
 
-function launchMaster(){
+Logger.info(`beginning application startup`)
+fsReader.read()
+.then((fromFile) => OptionsValidator.validate(fromFile))
+.then((validOptions) => {cluster.isMaster ? launchMaster(validOptions) : launchWorker(validOptions)})
+
+
+
+function launchMaster(options){
   Logger.info(`master thread started`)
 
-  const multiThreaded = false
-  const maxThreads = multiThreaded ? (os.cpus().length * 2) : 1
+  const maxThreads = options.application.multithreaded.value ? (os.cpus().length * 2) : 1
 
   Logger.info(`spawning ${maxThreads} worker thread(s)`)
 
   for(let i = 0; i < maxThreads; i++){
     cluster.fork()
   }
+
   cluster.on('exit',(worker, code, signal) => {
     Logger.error(`work thread died`)
     Logger.error(`terminating application thread pool`)
@@ -23,10 +31,12 @@ function launchMaster(){
   })
 
 }
-function launchWorker(){
+
+
+function launchWorker(options){
   Logger.info(`worker thread started`)
 
-  Bootstrapper.startup()
+  Bootstrapper.startup(options)
   process.on('SIGTERM', function(){
     Logger.error(`lost worker thread`)
   })

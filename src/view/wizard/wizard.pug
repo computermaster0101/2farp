@@ -1,4 +1,4 @@
-doctype html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"
+doctype html
 html(lang='en')
   head
     title 2fa Reverse Proxy
@@ -10,110 +10,51 @@ html(lang='en')
       form(method='post' name='form' enctype='application/x-www-form-urlencoded')
         h3 Admin User Profile
         table
-          tr
-            td
-              label(for='first') First Name:
-            td(title=adminUserOptions.first[1])
-              input(name='first' type='text' value=adminUserOptions.first[0])
-          tr
-            td
-              label(for='last') Last Name:
-            td(title=adminUserOptions.last[1])
-              input(name='last' type='text' value=adminUserOptions.last[0])
-          tr
-            td
-              label(for='phone') Phone Number:
-            td(title=adminUserOptions.phone[1])
-              input(name='phone' type='tel' value=adminUserOptions.phone[0])
-          tr
-            td
-              label(for='email') Email Address:
-            td(title=adminUserOptions.email[1])
-              input(name='email' type='email' value=adminUserOptions.email[0])
-          tr
-            td
-              label(for='adminUser') Admin Username:
-            td(title=adminUserOptions.username[1])
-              input(name='adminUser' type='text' value=adminUserOptions.username[0])
-          tr
-            td
-              label(for='adminPass') Admin Password:
-            td(title=adminUserOptions.password[1])
-              input(name='adminPass' type='password' value=adminUserOptions.password[0])
-          tr
-            td
-              label(for='accountResetPassphraseOne') Account Reset Passphrase One:
-            td
-              input(name='accountResetPassphraseOne' type='text' value='')
-          tr
-            td
-              label(for='accountResetPassphraseTwo') Account Reset Passphrase Two:
-            td
-              input(name='accountResetPassphraseTwo' type='text' value='')
-          tr
-            td
-              label(for='adminToken') Admin Token:
-            td
-              input(name='adminToken' type='number' value='')
-          tr
-            td
-              label(for='qrData') Admin Secret:
-            td
-              input(name='qrData' type='text' value=adminUserOptions.qrData[0] hidden='true')
-              input(name='qrCode' type='text' value=adminUserOptions.qrCode[0] hidden='true')
-          tr
-            td
-            td
-              img(src=adminUserOptions.qrCode[0])
+          each value, key in adminUserOptions
+            tr(title=value.message)
+              td
+                label(for=key)=value.key
+              td
+                case value.type
+                  when 'tel': input(name=key type=value.type value=value.value pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' required='true')
+                  when 'email': input(name=key type=value.type value=value.value pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' required='true')
+                  default: input(name=key type=value.type value=value.value required='true')
         h3 Database Settings
         table
-          tr
-            td
-              label(for='database') Database Name:
-            td(title=options.datasource.database[1])
-              input(name='database' type='text' value=options.datasource.database[0])
-          tr
-            td
-              label(for='host') Database Host:
-            td(title=options.datasource.host[1])
-              input(name='host' type='text' value=options.datasource.host[0])
-          tr
-            td
-              label(for:'port') Database Port:
-            td(title=options.datasource.port[1])
-              input(name='port' type='number' value=options.datasource.port[0])
-          tr
-            td
-              label(for='username') Database Username:
-            td(title=options.datasource.username[1])
-              input(name='username' type='text' value=options.datasource.username[0])
-          tr
-            td
-              label(for='pass') Database Password:
-            td(title=options.datasource.pass[1])
-              input(name='pass' type='password' value=options.datasource.pass[0])
-          tr
-            td
-              label(for='databaseDialect') Database Dialect:
-            td(title=options.datasource.dialect[1])
-              select(name='dialect' type='select' value=options.datasource.dialect[0])
-                option(name='mysql' value='mysql') MySQL
-                option(name='mssql' value='mssql') MSSQL
-                option(name='postgres' value='postgres') PostgreSQL
-                option(name='sqlite' value='sqlite') SQLite
-          tr
+          each value, key in options.datasource
+            tr(title=value.message)
+              td
+                label(for=key)=value.key
+              td
+                case value.type
+                  when 'number': input(name=key type=value.type value=value.value min='1024' max='65535' required='true')
+                  when 'select': select(name=key type=value.type  value=value.value)
+                                   option(name='mysql' value='mysql') MySQL
+                                   option(name='mssql' value='mssql') MSSQL
+                                   option(name='postgres' value='postgres') PostgreSQL
+                                   option(name='sqlite' value='sqlite') SQLite
+                  default: input(name=key type=value.type value=value.value required='true')
         h3 Application Settings
         table
-          tr
-            td
-              label(for='apiPort') API Port:
-            td(title=options.application.api.port[1])
-              input(name='apiPort' type='text' value=options.application.api.port[0])
-          tr
-            td
-              label(for='guiPort') GUI Port:
-            td(title=options.application.gui.port[1])
-              input(name='guiPort' type='text' value=options.application.gui.port[0])
+          each value, key in options.application
+            tr(title=value.message)
+              td
+                label(for=key)=value.key
+              td
+                case value.type
+                  when 'number': input(name=key type=value.type value=value.value min='1024' max='65535' required='true')
+                  when 'radio'
+                   if value.value
+                     input(name=key type=value.type value='true' required='true' checked)
+                     | Enabled
+                     input(name=key type=value.type value='false' required='true')
+                     | Disabled
+                   else
+                     input(name=key type=value.type value='true' required='true')
+                     | Enabled
+                     input(name=key type=value.type value='false' required='true' checked)
+                     | Disabled
+                  default: input(name=key type=value.type value=value.value required='true')
         br
         input(type='submit' value='Test' formaction='/wizard/testOptions')
         | &emsp;

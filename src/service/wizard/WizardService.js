@@ -1,6 +1,11 @@
-
+import Logger from '../common/Logger'
+import DatabaseService from './DatabaseService'
 
 export default class WizardService {
+
+  static testDatabase = DatabaseService.test
+
+  static buildDatabase = DatabaseService.build
 
 }
 

@@ -15,3 +15,8 @@ profiling https://newrelic.com/nodejs
           https://strongloop.com/node-js/monitoring/
           https://polyverse.io/
           https://docs.appdynamics.com/display/PRO39/APM+Overview+-+Node.js
+
+
+
+          https://www.npmjs.com/package/beaverbird
+          

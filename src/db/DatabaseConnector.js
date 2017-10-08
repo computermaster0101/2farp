@@ -1,4 +1,5 @@
 import {Builder} from 'sequelize-classes'
+import Logger from '../service/common/Logger'
 import AccessGroup from '../model/AccessGroup'
 import AccessGroupRule from '../model/AccessGroupRule'
 import CellCarrier from '../model/CellCarrier'
@@ -21,19 +22,18 @@ exports.Status
 exports.User
 
 exports.DatabaseConnector = function(datasourceOptions){
-
-
   return new Promise((resolve,reject) => {
+    Logger.info(`building database connection`)
 
     const options = {
-      database: datasourceOptions.database[0],
-      username: datasourceOptions.username[0],
-      pass: datasourceOptions.pass[0],
+      database: datasourceOptions.database.value,
+      username: datasourceOptions.user.value,
+      pass: datasourceOptions.pass.value,
       config: {
-        host: datasourceOptions.host[0],
-        port: datasourceOptions.port[0],
+        host: datasourceOptions.host.value,
+        port: datasourceOptions.port.value,
         logging: false,
-        dialect: datasourceOptions.dialect[0]
+        dialect: datasourceOptions.dialect.value
       }
     }
 
@@ -51,5 +51,4 @@ exports.DatabaseConnector = function(datasourceOptions){
     module.exports.User = databaseConnector.User
     resolve()
   })
-
 }

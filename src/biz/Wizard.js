@@ -1,8 +1,8 @@
 import Logger from '../service/common/Logger'
 import fsHelper from '../service/wizard/fsHelper'
 import Validator from '../service/wizard/ValidationService'
+import WizardService from '../service/wizard/WizardService'
 import Transformer from '../service/wizard/TransformationService'
-import { DatabaseConnector, Database } from '../db/DatabaseConnector'
 
 export default class Application {
 
@@ -11,21 +11,21 @@ export default class Application {
       Logger.info(`loading options`)
 
       let adminUserOptions
-      let datasourceOptions
+      let bootstrapOptions
 
-      fsHelper.readOptionsFile()
-      .then((fromFile) => Validator.validateDatasource(fromFile))
-      .then((validOptions) => {
-        datasourceOptions=validOptions
-      })
+      fsHelper.read()
+      .then((fromFile) => Validator.validateOptions(fromFile))
+      .then((validOptions) => {bootstrapOptions = validOptions})
       .then(() => Validator.validateAdmin({}))
-      .then((validAdmin) => {
-        adminUserOptions=validAdmin
-      })
+      .then((validAdmin) => {adminUserOptions = validAdmin})
       .then(() => {
-        adminUserOptions.password[0] = '********'
-        datasourceOptions.datasource.pass[0] = '********'
-        resolve({ options:datasourceOptions, adminUserOptions:adminUserOptions })
+
+        Logger.debug(`adminUserOptions: ${JSON.stringify(adminUserOptions)}`)
+        Logger.debug(`bootstrapOptions: ${JSON.stringify(bootstrapOptions)}`)
+
+        adminUserOptions.password.value = '********'
+        bootstrapOptions.datasource.pass.value = '********'
+        resolve({ options:bootstrapOptions, adminUserOptions:adminUserOptions })
       })
     })
   }
@@ -33,31 +33,33 @@ export default class Application {
   static testOptions = function(fromWizard){
     return new Promise((resolve,reject) => {
       Logger.info(`testing options fromWizard`)
-      Logger.debug(`testing options ${JSON.stringify(fromWizard)}`)
+      Logger.debug(`fromWizard: ${JSON.stringify(fromWizard)}`)
 
       let adminUserOptions
-      let datasourceOptions
+      let bootstrapOptions
+      let formattedFromWizard
 
-      Transformer.transformDatasourceFromWizard(fromWizard)
-      .then((formattedFromWizard) => Validator.validateDatasource(formattedFromWizard))
-      .then((validOptions) => {
-        datasourceOptions=validOptions
-      })
+      Transformer.transformFromWizard(fromWizard)
+      .then((transformedData) => {formattedFromWizard = transformedData})
+      .then(() => Validator.validateOptions(formattedFromWizard))
+      .then((validOptions) => {bootstrapOptions = validOptions})
       .then(() => Validator.validateAdmin(fromWizard))
-      .then((validAdmin) => {
-        adminUserOptions=validAdmin
-      })
-      .then(() => DatabaseConnector(datasourceOptions.datasource))
-      .then(() => Database.authenticate())
-      .then(() => Transformer.transformDatasourceFromWizard(fromWizard))
-      .then((formattedFromWizard) => fsHelper.writeOptionsFile(formattedFromWizard))
+      .then((validAdmin) => {adminUserOptions = validAdmin})
+      .then(() => WizardService.testDatabase(bootstrapOptions.datasource))
+      .then(() => WizardService.buildDatabase())
+      .then(() => fsHelper.write(formattedFromWizard))
       .then(() => {
-        adminUserOptions.password[0] = '********'
-        datasourceOptions.datasource.pass[0] = '********'
-        resolve({options: datasourceOptions, adminUserOptions: adminUserOptions, status: 'Database connection successfully tested\nDatabase has been successfully created'})
+
+        Logger.debug(`adminUserOptions: ${JSON.stringify(adminUserOptions)}`)
+        Logger.debug(`bootstrapOptions: ${JSON.stringify(bootstrapOptions)}`)
+
+        adminUserOptions.password.value = '********'
+        bootstrapOptions.datasource.pass.value = '********'
+        resolve({ status: 'Database connection successfully tested\nDatabase has been successfully created', options:bootstrapOptions, adminUserOptions:adminUserOptions })
+
       })
       .catch((e) => {
-        resolve({adminUserOptions: adminUserOptions, options: datasourceOptions, status: e})
+        resolve({ adminUserOptions: adminUserOptions, options: bootstrapOptions, status: e })
       })
     })
   }
@@ -66,14 +68,14 @@ export default class Application {
     return new Promise((resolve,reject) => {
       Logger.info(`restart fromWizard`)
 
-      fsHelper.readOptionsFile()
-      .then((fromFile) => Validator.validateDatasource(fromFile))
+      fsHelper.read()
+      .then((fromFile) => Validator.validateOptions(fromFile))
       .then((validOptions) => {
         setTimeout(function(){
           process.exit(0)
         },1000 * 5)
 
-        resolve({redirectURL: `${baseUrl.protocol}:\/\/${baseUrl.hostname}:${validOptions.application.gui.port[0]}\/`})
+        resolve({redirectURL: `${baseUrl.protocol}:\/\/${baseUrl.hostname}:${validOptions.application.guiPort.value}\/`})
       })
     })
   }

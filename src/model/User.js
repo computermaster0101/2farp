@@ -9,7 +9,6 @@ import Status from './Status'
 
 @paranoid(true)
 @option('timestamps', true)
-@option('createdAt', false)
 @option('version', true)
 
 @belongsTo('Role')
@@ -44,10 +43,10 @@ export default class User extends Model {
     }
   }
   phone = {
-    type: Sequelize.INTEGER(10),
+    type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      isInt: true
+      notEmpty: true
     }
   }
   email = {
@@ -77,16 +76,6 @@ export default class User extends Model {
       isLowercase: true
     }
   }
-  key = {
-    type: Sequelize.STRING(32),
-    allowNull: false,
-    unique: true,
-    validate: {
-      notEmpty: true,
-      isAlphanumeric: true,
-      isUppercase: true
-    }
-  }
   salt = {
     type: Sequelize.STRING(64),
     allowNull: false,
@@ -97,9 +86,17 @@ export default class User extends Model {
       isLowercase: true
     }
   }
+  key = {
+    type: Sequelize.STRING(32),
+    unique: true,
+    validate: {
+      notEmpty: true,
+      isAlphanumeric: true,
+      isUppercase: true
+    }
+  }
   qrData = {
     type: Sequelize.STRING,
-    allowNull: false,
     unique: true,
     validate: {
       notEmpty: true
@@ -107,21 +104,18 @@ export default class User extends Model {
   }
   lastAttempt = {
     type: Sequelize.INTEGER,
-    allowNull: true,
     validate: {
       isInt: true
     }
   }
   failedAttempts = {
     type: Sequelize.INTEGER(2),
-    allowNull: true,
     validate: {
       isInt: true
     }
   }
   accountResetPassphraseOne = { //could allow unlock/reset passphrases if users forget passwords, they can unlock their own account. (aka hash answers to 'secret' questions)
     type: Sequelize.STRING(64),
-    allowNull: false,
     unique: true,
     validate: {
       notEmpty: true,
@@ -131,7 +125,6 @@ export default class User extends Model {
   }
   accountResetPassphraseTwo = { //could allow unlock/reset passphrases if users forget passwords, they can unlock their own account. (aka hash answers to 'secret' questions)
     type: Sequelize.STRING(64),
-    allowNull: false,
     unique: true,
     validate: {
       notEmpty: true,
@@ -141,7 +134,6 @@ export default class User extends Model {
   }
   passwordReset = { //could epochTime.sessionId: ie 1504918297137.342 where session.userId and this.sessionId match to prevent excessive notifications. epochTime is when the password will expire. upon session creation, will calculate if notification should be sent using the setting [notify user password will expire in X days]
     type: Sequelize.FLOAT,
-    allowNull: false,
     validate: {
       isFloat: true
     }

@@ -1,7 +1,7 @@
 import Logger from '../service/common/Logger'
 import fsHelper from '../service/wizard/fsHelper'
 import Validator from '../service/wizard/ValidationService'
-import WizardService from '../service/wizard/WizardService'
+import DatabaseService from '../service/wizard/DatabaseService'
 import Transformer from '../service/wizard/TransformationService'
 
 export default class Application {
@@ -45,8 +45,8 @@ export default class Application {
       .then((validOptions) => {bootstrapOptions = validOptions})
       .then(() => Validator.validateAdmin(fromWizard))
       .then((validAdmin) => {adminUserOptions = validAdmin})
-      .then(() => WizardService.testDatabase(bootstrapOptions.datasource))
-      .then(() => WizardService.buildDatabase())
+      .then(() => DatabaseService.test(bootstrapOptions.datasource))
+      .then(() => DatabaseService.build(adminUserOptions))
       .then(() => fsHelper.write(formattedFromWizard))
       .then(() => {
 
@@ -74,6 +74,7 @@ export default class Application {
       .then((fromFile) => Validator.validateOptions(fromFile))
       .then((validOptions) => {
         setTimeout(function(){
+          Logger.info(`terminate thread now`)
           process.exit(0)
         },1000 * 5)
 

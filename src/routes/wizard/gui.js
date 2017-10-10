@@ -8,16 +8,16 @@ const WizardGUI = module.exports = express()
       WizardGUI.use(bodyParser.json())
       WizardGUI.use(bodyParser.urlencoded({extended:false}))
 
+WizardGUI.get('/favicon.ico',function(req,res){
+  res.sendFile('img.png',  { root: __dirname })
+})
+
 WizardGUI.get('/wizard/loadOptions',function(req,res){
   Application.loadOptions()
   .then((fromApp) => {
     res.render('wizard',{options: fromApp.options, adminUserOptions: fromApp.adminUserOptions})
   })
 })
-
-WizardGUI.get('/favicon.ico',function(req,res){
-  res.status(200).end()
-}) //fixme: wtf is this
 
 WizardGUI.get('*',function(req,res){
   res.redirect('/wizard/loadOptions')

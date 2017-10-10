@@ -13,27 +13,20 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.1",
-    "bunyan-log": "^2.0.10",
     "child_process": "^1.0.2",
     "cluster": "^0.7.7",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
     "fs": "0.0.1-security",
     "http-proxy": "^1.16.2",
-    "mysql": "^2.14.1",
     "mysql2": "^1.4.2",
     "os": "^0.1.1",
     "pug": "^2.0.0-rc.1",
-    "qr-encoder": "^1.1.1",
-    "qr-image": "^3.2.0",
     "qrcode": "^0.9.0",
-    "qrcode-js": "0.0.2",
-    "qrious": "^4.0.2",
     "sequelize": "^4.8.3",
     "sequelize-classes": "https://github.com/nutstick/sequelize-classes.git",
     "sha256": "^0.2.0",
-    "speakeasy": "^2.0.0",
-    "tinydb": "^0.1.0"
+    "speakeasy": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

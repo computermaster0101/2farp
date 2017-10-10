@@ -6,8 +6,7 @@ html(lang='en')
   body
     div(align='center' position='fixed' height='100%' style='board-style: solid')
       h1 Secured Site Login
-      br
-      p(style='color: red') #{status}
+      pre(style='color: red') #{status}
       form(action='login' method='post' name='form' enctype='application/x-www-form-urlencoded')
         table
           tr
@@ -18,15 +17,7 @@ html(lang='en')
             td Password:
             td
               input(type='password' name='password')
-          tr
-            td Token:
-            td
-              input(type='text' name='token')
         br
-        input(type='submit' value='Establish Session')
-        | &emsp;
-        input(type='submit' value='Edit Information')
-        | &emsp;
-        input(type='submit' value='Shutdown' formaction='/application/shutdown')
+        input(type='submit' value='Submit')
       br
       p Presented by Two Factor Authentication Reverse Proxy

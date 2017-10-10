@@ -28,8 +28,12 @@ export default class Validator {
         password: {
           key: 'Password',
           type: 'password',
-          value: (typeof(admin.password) != 'string') ? defaults.password : admin.password,
-          message: (typeof(admin.password) != 'string') ? `using default password ${admin.password} is not a string` : `password validated`
+          value: (typeof(admin.password) != 'string') ? defaults.password :
+                 (admin.password === '********') ? defaults.password :
+                 admin.password,
+          message: (typeof(admin.password) != 'string') ? `using default password ${admin.password} is not a string` :
+                   (admin.password === '********') ? `using default password ${admin.password} is not valid` :
+                   `password validated`
         },
         first: {
           key: 'First Name',

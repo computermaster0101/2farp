@@ -8,6 +8,10 @@ const WizardAPI = module.exports = express();
       WizardAPI.use(bodyParser.json())
       WizardAPI.use(bodyParser.urlencoded({extended:false}))
 
+WizardAPI.get('/favicon.ico',function(req,res){
+  res.sendFile('img.png',  { root: __dirname })
+})
+
 WizardAPI.get('/wizard/loadOptions',function(req,res){
   Application.loadOptions()
   .then((fromApp) => {
@@ -22,6 +26,13 @@ WizardAPI.get('*',function(req,res){
 WizardAPI.post('/wizard/testOptions',function(req,res){
   Application.testOptions(req.body)
   .then((fromApp) => {
-    res.json({ status: fromApp.status, adminUserOptions: fromApp.adminUserOptions, options: fromApp.options })
+    res.json({status: fromApp.status, options: fromApp.options, adminUserOptions: fromApp.adminUserOptions})
+  })
+})
+
+WizardAPI.post('/wizard/restart',function(req,res){
+  Application.restart({protocol: req.protocol, hostname: req.hostname})
+  .then((fromApp) => {
+    res.json({redirectURL: fromApp.redirectURL})
   })
 })
